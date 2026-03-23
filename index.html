@@ -369,7 +369,15 @@
         }
 
         // --- Setup Firebase & Auth ---
-        const firebaseConfig = JSON.parse(__firebase_config);
+        const firebaseConfig = {
+          apiKey: "AIzaSyBIE0oguLHsxaaAfVl5kAixeYFf90zunSY",
+          authDomain: "mitra-527a0.firebaseapp.com",
+          projectId: "mitra-527a0",
+          storageBucket: "mitra-527a0.firebasestorage.app",
+          messagingSenderId: "868702794602",
+          appId: "1:868702794602:web:7951fb3c35506a52c06b13",
+          measurementId: "G-J1Q5SN27MH"
+        };
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
