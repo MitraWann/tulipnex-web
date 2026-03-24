@@ -47,13 +47,14 @@
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <div class="flex-shrink-0 flex items-center">
-                    <a href="#" class="text-2xl font-bold text-primary tracking-tight">Mitra<span class="text-dark">Wann.</span></a>
+                    <a href="#beranda" class="text-2xl font-bold text-primary tracking-tight">Mitra<span class="text-dark">Wann.</span></a>
                 </div>
                 <!-- Menu Desktop -->
-                <div class="hidden md:flex space-x-8 items-center">
-                    <a href="#beranda" class="text-gray-600 hover:text-primary transition font-medium">Beranda</a>
-                    <a href="#tentang" class="text-gray-600 hover:text-primary transition font-medium">Tentang</a>
-                    <a href="#artikel" class="text-gray-600 hover:text-primary transition font-medium">Artikel</a>
+                <div class="hidden md:flex space-x-6 items-center">
+                    <a href="#beranda" class="nav-link text-gray-600 hover:text-primary transition font-medium">Beranda</a>
+                    <a href="#tentang" class="nav-link text-gray-600 hover:text-primary transition font-medium">Tentang</a>
+                    <a href="#artikel" class="nav-link text-gray-600 hover:text-primary transition font-medium">Artikel</a>
+                    <a href="#bot-wa" class="nav-link text-gray-600 hover:text-primary transition font-medium">Bot WA</a>
                     <a href="#kontak" class="bg-primary text-white px-5 py-2 rounded-full hover:bg-blue-700 transition font-medium shadow-md shadow-blue-200">Kontak Saya</a>
                     <button id="nav-admin" class="hidden text-dark hover:text-primary transition font-bold border border-gray-300 px-4 py-2 rounded-full">Admin</button>
                     <button id="nav-logout" class="hidden text-red-500 hover:text-red-700 transition font-bold px-4 py-2">Logout</button>
@@ -72,6 +73,7 @@
                 <a href="#beranda" class="block px-3 py-2 text-gray-600 font-medium hover:bg-gray-50 rounded-md">Beranda</a>
                 <a href="#tentang" class="block px-3 py-2 text-gray-600 font-medium hover:bg-gray-50 rounded-md">Tentang</a>
                 <a href="#artikel" class="block px-3 py-2 text-gray-600 font-medium hover:bg-gray-50 rounded-md">Artikel</a>
+                <a href="#bot-wa" class="block px-3 py-2 text-gray-600 font-medium hover:bg-gray-50 rounded-md">Bot WA</a>
                 <a href="#kontak" class="block px-3 py-2 text-primary font-medium hover:bg-gray-50 rounded-md">Kontak Saya</a>
                 <button id="mobile-nav-admin" class="hidden w-full text-left block px-3 py-2 text-dark font-bold hover:bg-gray-50 rounded-md">Admin Dashboard</button>
                 <button id="mobile-nav-logout" class="hidden w-full text-left block px-3 py-2 text-red-500 font-bold hover:bg-gray-50 rounded-md">Logout</button>
@@ -79,92 +81,114 @@
         </div>
     </nav>
 
-    <!-- Bagian Utama (Hero Section) -->
-    <section id="beranda" class="flex-grow pt-16 pb-20 lg:pt-24 lg:pb-28 overflow-hidden">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col-reverse lg:flex-row items-center gap-12">
-                <div class="w-full lg:w-1/2 text-center lg:text-left">
-                    <span id="display-hero-subtitle" class="text-primary font-semibold tracking-wide uppercase text-sm">Selamat Datang di Blog Saya</span>
-                    <h1 id="display-hero-title" class="mt-3 text-4xl sm:text-5xl lg:text-6xl font-extrabold text-dark leading-tight">
-                        Halo, Saya <span class="text-primary">Mitrawan</span>
-                    </h1>
-                    <p id="display-hero-desc" class="mt-5 text-lg text-gray-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                        Seorang penulis lepas, pengembang web, dan pembelajar seumur hidup. Di sini saya membagikan pemikiran, tutorial, dan pengalaman saya dalam dunia teknologi dan kehidupan sehari-hari.
-                    </p>
-                    <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                        <a href="#artikel" class="bg-primary text-white px-8 py-3 rounded-full font-medium hover:bg-blue-700 transition shadow-lg shadow-blue-200">
-                            Baca Artikel
-                        </a>
-                        <a href="#kontak" class="bg-white text-gray-700 border border-gray-300 px-8 py-3 rounded-full font-medium hover:bg-gray-50 transition">
-                            Hubungi Saya
-                        </a>
+    <!-- Kontainer Utama (Halaman akan diganti-ganti di sini) -->
+    <main class="flex-grow flex flex-col">
+
+        <!-- Halaman Beranda -->
+        <section id="beranda" class="page-section flex-grow pt-16 pb-20 lg:pt-24 lg:pb-28 overflow-hidden hidden">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col-reverse lg:flex-row items-center gap-12">
+                    <div class="w-full lg:w-1/2 text-center lg:text-left">
+                        <span id="display-hero-subtitle" class="text-primary font-semibold tracking-wide uppercase text-sm">Selamat Datang di Blog Saya</span>
+                        <h1 id="display-hero-title" class="mt-3 text-4xl sm:text-5xl lg:text-6xl font-extrabold text-dark leading-tight">
+                            Halo, Saya <span class="text-primary">Mitrawan</span>
+                        </h1>
+                        <p id="display-hero-desc" class="mt-5 text-lg text-gray-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                            Seorang penulis lepas, pengembang web, dan pembelajar seumur hidup. Di sini saya membagikan pemikiran, tutorial, dan pengalaman saya dalam dunia teknologi dan kehidupan sehari-hari.
+                        </p>
+                        <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                            <a href="#artikel" class="bg-primary text-white px-8 py-3 rounded-full font-medium hover:bg-blue-700 transition shadow-lg shadow-blue-200">
+                                Baca Artikel
+                            </a>
+                            <a href="#kontak" class="bg-white text-gray-700 border border-gray-300 px-8 py-3 rounded-full font-medium hover:bg-gray-50 transition">
+                                Hubungi Saya
+                            </a>
+                        </div>
+                    </div>
+                    <div class="w-full lg:w-1/2 flex justify-center lg:justify-end">
+                        <div class="relative w-64 h-64 sm:w-80 sm:h-80">
+                            <div class="absolute inset-0 bg-primary rounded-full opacity-10 blur-2xl transform scale-110"></div>
+                            <img src="https://files.catbox.moe/3t0jyz.jpg" alt="Foto Profil" class="relative rounded-full object-cover w-full h-full shadow-2xl border-4 border-white" onerror="this.src='https://ui-avatars.com/api/?name=Mitrawan&size=512&background=2563eb&color=fff'">
+                        </div>
                     </div>
                 </div>
-                <div class="w-full lg:w-1/2 flex justify-center lg:justify-end">
-                    <!-- Foto Profil -->
-                    <div class="relative w-64 h-64 sm:w-80 sm:h-80">
-                        <div class="absolute inset-0 bg-primary rounded-full opacity-10 blur-2xl transform scale-110"></div>
-                        <img src="https://files.catbox.moe/3t0jyz.jpg" alt="Foto Profil" class="relative rounded-full object-cover w-full h-full shadow-2xl border-4 border-white" onerror="this.src='https://ui-avatars.com/api/?name=Mitrawan&size=512&background=2563eb&color=fff'">
+            </div>
+        </section>
+
+        <!-- Halaman Tentang -->
+        <section id="tentang" class="page-section py-20 bg-white flex-grow hidden">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl font-bold text-dark">Tentang Saya</h2>
+                <div class="w-16 h-1 bg-primary mx-auto mt-4 rounded"></div>
+                <p id="display-about-desc" class="mt-6 text-gray-600 leading-relaxed text-lg">
+                    Saya mulai menulis kode sejak tahun 2018 dan jatuh cinta pada pengembangan web. Melalui blog ini, saya berharap dapat mendokumentasikan perjalanan karir saya, berbagi solusi teknis yang saya temukan, dan sesekali menulis tentang buku atau produktivitas. Ketika tidak sedang di depan komputer, saya biasanya bersepeda atau menikmati kopi di kedai lokal.
+                </p>
+            </div>
+        </section>
+
+        <!-- Halaman Artikel -->
+        <section id="artikel" class="page-section py-20 bg-gray-50 flex-grow hidden">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-end mb-10">
+                    <div>
+                        <h2 class="text-3xl font-bold text-dark">Daftar Artikel</h2>
+                        <div class="w-16 h-1 bg-primary mt-4 rounded"></div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Bagian Tentang -->
-    <section id="tentang" class="py-20 bg-white">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-3xl font-bold text-dark">Tentang Saya</h2>
-            <div class="w-16 h-1 bg-primary mx-auto mt-4 rounded"></div>
-            <p id="display-about-desc" class="mt-6 text-gray-600 leading-relaxed text-lg">
-                Saya mulai menulis kode sejak tahun 2018 dan jatuh cinta pada pengembangan web. Melalui blog ini, saya berharap dapat mendokumentasikan perjalanan karir saya, berbagi solusi teknis yang saya temukan, dan sesekali menulis tentang buku atau produktivitas. Ketika tidak sedang di depan komputer, saya biasanya bersepeda atau menikmati kopi di kedai lokal.
-            </p>
-        </div>
-    </section>
-
-    <!-- Bagian Artikel Terbaru -->
-    <section id="artikel" class="py-20 bg-gray-50">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-end mb-10">
-                <div>
-                    <h2 class="text-3xl font-bold text-dark">Artikel Terbaru</h2>
-                    <div class="w-16 h-1 bg-primary mt-4 rounded"></div>
+                
+                <div id="article-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Artikel dimuat melalui JavaScript -->
                 </div>
             </div>
-            
-            <!-- Tempat daftar artikel akan di-*render* oleh JavaScript -->
-            <div id="article-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Artikel dimuat melalui JavaScript -->
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Bagian Kontak -->
-    <section id="kontak" class="py-20 bg-white">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-3xl font-bold text-dark">Mari Berkolaborasi</h2>
-            <div class="w-16 h-1 bg-primary mx-auto mt-4 mb-8 rounded"></div>
-            <p class="text-gray-600 mb-8 text-lg">
-                Punya ide proyek, tawaran pekerjaan, atau sekadar ingin menyapa? Kotak masuk saya selalu terbuka.
-            </p>
-
-            <a href="mailto:wmitrawan@gmail.com" target="_blank" class="inline-flex items-center gap-2 bg-dark text-white px-8 py-4 rounded-full font-medium hover:bg-gray-800 transition shadow-lg">
-                <i class="fas fa-envelope"></i> Kirim Email ke Saya
-            </a>
-            
-            <div class="mt-12 flex justify-center gap-6">
-                <a href="https://wa.me/6282215415550" target="_blank" class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-primary hover:text-white transition text-xl">
-                    <i class="fab fa-whatsapp"></i>
+        <!-- Halaman Bot WA -->
+        <section id="bot-wa" class="page-section py-20 bg-white flex-grow hidden">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 text-green-500 text-5xl">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h2 class="text-3xl font-bold text-dark">Bot WhatsApp Pintar</h2>
+                <div class="w-16 h-1 bg-green-500 mx-auto mt-4 rounded"></div>
+                <p id="display-bot-desc" class="mt-6 text-gray-600 leading-relaxed text-lg mb-10">
+                    Halo! Selain menulis di blog, saya juga mengembangkan Bot WhatsApp yang dapat membantu berbagai keperluan Anda. Mulai dari informasi cepat, layanan otomatisasi, hingga fitur interaktif lainnya siap melayani Anda 24/7.
+                </p>
+                <!-- Menambahkan ?text=.menu agar pesan otomatis terisi -->
+                <a href="https://wa.me/628989240628?text=.menu" target="_blank" class="inline-flex items-center gap-3 bg-green-500 text-white px-8 py-4 rounded-full font-bold hover:bg-green-600 transition shadow-lg shadow-green-200 text-lg border-2 border-transparent hover:border-green-400 hover:scale-105 transform">
+                    <i class="fab fa-whatsapp text-2xl"></i> Hubungi Bot Sekarang
                 </a>
-                <a href="https://www.instagram.com/mitrawann?igsh=MW5iMjRsdmJmY29pMg%3D%3D" target="_blank" class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-primary hover:text-white transition text-xl">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="#" class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-primary hover:text-white transition text-xl">
-                    <i class="fab fa-linkedin-in"></i>
-                </a>
+                <p class="mt-4 text-sm text-gray-500">Atau simpan nomor: +62 898-9240-628</p>
             </div>
-        </div>
-    </section>
+        </section>
+
+        <!-- Halaman Kontak -->
+        <section id="kontak" class="page-section py-20 bg-white flex-grow hidden">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl font-bold text-dark">Mari Berkolaborasi</h2>
+                <div class="w-16 h-1 bg-primary mx-auto mt-4 mb-8 rounded"></div>
+                <p class="text-gray-600 mb-8 text-lg">
+                    Punya ide proyek, tawaran pekerjaan, atau sekadar ingin menyapa? Kotak masuk saya selalu terbuka.
+                </p>
+
+                <a href="mailto:wmitrawan@gmail.com" target="_blank" class="inline-flex items-center gap-2 bg-dark text-white px-8 py-4 rounded-full font-medium hover:bg-gray-800 transition shadow-lg">
+                    <i class="fas fa-envelope"></i> Kirim Email ke Saya
+                </a>
+                
+                <div class="mt-12 flex justify-center gap-6">
+                    <a href="https://wa.me/6282215415550" target="_blank" class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-primary hover:text-white transition text-xl">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <a href="https://www.instagram.com/mitrawann?igsh=MW5iMjRsdmJmY29pMg%3D%3D" target="_blank" class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-primary hover:text-white transition text-xl">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-primary hover:text-white transition text-xl">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
 
     <!-- Footer -->
     <footer class="bg-dark py-8 border-t border-gray-800">
@@ -181,19 +205,13 @@
 
     <!-- Modal untuk Membaca Artikel (Pop-up) -->
     <div id="article-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
-        <!-- Overlay Gelap -->
         <div class="absolute inset-0 bg-gray-900 bg-opacity-75 backdrop-blur-sm transition-opacity" id="modal-overlay"></div>
-        
-        <!-- Konten Modal -->
         <div class="relative bg-white w-full max-w-3xl max-h-[90vh] mx-4 rounded-2xl shadow-2xl flex flex-col overflow-hidden modal-enter" id="modal-content">
-            <!-- Header Modal -->
             <div class="flex justify-between items-center p-6 border-b border-gray-100">
                 <button id="close-modal" class="w-10 h-10 rounded-full bg-gray-100 text-gray-600 hover:bg-red-100 hover:text-red-600 flex items-center justify-center transition ml-auto">
                     <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
-            
-            <!-- Isi Artikel -->
             <div class="p-6 sm:p-10 overflow-y-auto">
                 <img id="modal-img" src="" alt="Thumbnail" class="w-full h-64 object-cover rounded-xl mb-6 hidden">
                 <div class="flex items-center gap-4 text-sm text-gray-500 mb-4">
@@ -201,8 +219,6 @@
                     <span id="modal-category" class="bg-blue-50 text-primary px-3 py-1 rounded-full font-medium">-</span>
                 </div>
                 <h2 id="modal-title" class="text-3xl font-bold text-dark mb-6 leading-tight">Judul Artikel</h2>
-                
-                <!-- Fitur ✨ AI Summarizer -->
                 <div class="mb-8">
                     <button id="btn-summarize" class="bg-indigo-50 text-indigo-700 border border-indigo-200 hover:bg-indigo-100 px-4 py-2.5 rounded-lg text-sm font-medium transition flex items-center gap-2 w-fit">
                         <span>✨</span> Ringkas dengan AI
@@ -210,9 +226,7 @@
                     <div id="summary-container" class="hidden mt-3 p-4 bg-indigo-50/50 border border-indigo-100 rounded-lg text-indigo-900 text-sm leading-relaxed">
                     </div>
                 </div>
-
                 <div id="modal-body" class="prose prose-blue max-w-none text-gray-600 leading-relaxed space-y-4">
-                    <!-- Konten artikel akan dimasukkan ke sini -->
                 </div>
             </div>
         </div>
@@ -230,13 +244,11 @@
                 </button>
             </div>
 
-            <!-- Tab Navigasi Admin -->
             <div class="flex border-b border-gray-100 bg-gray-50 px-6 pt-4">
                 <button id="tab-articles-btn" class="px-4 py-2 font-semibold text-primary border-b-2 border-primary focus:outline-none">Kelola Artikel</button>
                 <button id="tab-settings-btn" class="px-4 py-2 font-semibold text-gray-500 border-b-2 border-transparent hover:text-gray-700 transition focus:outline-none">Pengaturan Teks</button>
             </div>
             
-            <!-- Daftar Artikel Admin -->
             <div class="p-6 overflow-y-auto flex-grow bg-gray-50" id="admin-body">
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="font-semibold text-lg">Kelola Artikel</h3>
@@ -245,11 +257,9 @@
                     </button>
                 </div>
                 <div id="admin-articles-list" class="space-y-3">
-                    <!-- List dirender via JS -->
                 </div>
             </div>
 
-            <!-- Form Edit/Tambah Artikel -->
             <div class="p-6 overflow-y-auto flex-grow bg-white hidden" id="admin-form-container">
                 <h3 id="form-title-label" class="font-semibold text-lg mb-4">Tulis Artikel Baru</h3>
                 <div class="space-y-4">
@@ -285,16 +295,15 @@
 
             <!-- Pengaturan Teks Website -->
             <div class="p-6 overflow-y-auto flex-grow bg-white hidden" id="admin-settings-container">
-                <h3 class="font-semibold text-lg mb-4">Pengaturan Teks Beranda</h3>
+                <h3 class="font-semibold text-lg mb-4">Pengaturan Teks Website</h3>
                 <div class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Subjudul Hero</label>
                         <input type="text" id="setting-hero-subtitle" class="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary" placeholder="Selamat Datang di Blog Saya">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Judul Hero (Bisa gunakan HTML untuk styling)</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Judul Hero</label>
                         <input type="text" id="setting-hero-title" class="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary" placeholder='Halo, Saya <span class="text-primary">Mitrawan</span>'>
-                        <p class="text-xs text-gray-500 mt-1">Gunakan tag <code>&lt;span class="text-primary"&gt;Teks&lt;/span&gt;</code> agar warna teks menjadi biru.</p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Hero</label>
@@ -302,7 +311,11 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Tentang Saya</label>
-                        <textarea id="setting-about-desc" rows="5" class="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary"></textarea>
+                        <textarea id="setting-about-desc" rows="4" class="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Bot WA</label>
+                        <textarea id="setting-bot-desc" rows="4" class="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary"></textarea>
                     </div>
                 </div>
                 <div class="mt-6 flex gap-3 justify-end">
@@ -342,6 +355,34 @@
         import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, onSnapshot, addDoc, updateDoc, deleteDoc, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+        // --- SPA Routing Logic ---
+        function handleNavigation() {
+            // Ambil hash dari URL (misal: #tentang), jika kosong gunakan #beranda
+            let hash = window.location.hash || '#beranda';
+            
+            // Sembunyikan semua halaman
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            // Tampilkan halaman target
+            const targetSection = document.querySelector(hash);
+            if (targetSection) {
+                targetSection.classList.remove('hidden');
+            } else {
+                // Jika hash tidak ditemukan, kembali ke beranda
+                document.getElementById('beranda').classList.remove('hidden');
+            }
+            
+            // Gulir ke atas
+            window.scrollTo(0, 0);
+        }
+
+        // Jalankan routing saat URL berubah atau halaman pertama kali dimuat
+        window.addEventListener('hashchange', handleNavigation);
+        document.addEventListener('DOMContentLoaded', handleNavigation);
+
+
         // --- Setup API Gemini Terpusat ---
         const apiKey = ""; 
 
@@ -370,13 +411,13 @@
 
         // --- Setup Firebase & Auth ---
         const firebaseConfig = {
-          apiKey: "AIzaSyBIE0oguLHsxaaAfVl5kAixeYFf90zunSY",
-          authDomain: "mitra-527a0.firebaseapp.com",
-          projectId: "mitra-527a0",
-          storageBucket: "mitra-527a0.firebasestorage.app",
-          messagingSenderId: "868702794602",
-          appId: "1:868702794602:web:7951fb3c35506a52c06b13",
-          measurementId: "G-J1Q5SN27MH"
+            apiKey: "AIzaSyBIE0oguLHsxaaAfVl5kAixeYFf90zunSY",
+            authDomain: "mitra-527a0.firebaseapp.com",
+            projectId: "mitra-527a0",
+            storageBucket: "mitra-527a0.firebasestorage.app",
+            messagingSenderId: "868702794602",
+            appId: "1:868702794602:web:7951fb3c35506a52c06b13",
+            measurementId: "G-J1Q5SN27MH"
         };
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
@@ -390,7 +431,7 @@
 
         // --- Fetch & Render Pengaturan Teks (Bisa diakses publik) ---
         function loadSettingsFromFirestore() {
-            if (!currentUser) return; // Pastikan user sudah terautentikasi (minimal anonim) sebelum mengambil data
+            if (!currentUser) return;
 
             const settingsDoc = doc(db, 'artifacts', appId, 'public', 'data', 'site_settings', 'main');
             
@@ -415,12 +456,16 @@
                         document.getElementById('display-about-desc').innerHTML = data.aboutDesc;
                         document.getElementById('setting-about-desc').value = data.aboutDesc;
                     }
+                    if(data.botDesc) {
+                        document.getElementById('display-bot-desc').innerHTML = data.botDesc;
+                        document.getElementById('setting-bot-desc').value = data.botDesc;
+                    }
                 } else {
-                    // Isi form default jika dokumen belum pernah dibuat/disimpan
                     document.getElementById('setting-hero-subtitle').value = document.getElementById('display-hero-subtitle').innerHTML.trim();
                     document.getElementById('setting-hero-title').value = document.getElementById('display-hero-title').innerHTML.trim();
                     document.getElementById('setting-hero-desc').value = document.getElementById('display-hero-desc').innerHTML.trim();
                     document.getElementById('setting-about-desc').value = document.getElementById('display-about-desc').innerHTML.trim();
+                    document.getElementById('setting-bot-desc').value = document.getElementById('display-bot-desc').innerHTML.trim();
                 }
             }, (error) => {
                 console.error("Gagal mengambil pengaturan:", error);
@@ -449,21 +494,19 @@
             const mobileNavLogout = document.getElementById('mobile-nav-logout');
 
             if (user) {
-                // Tampilkan menu Admin hanya jika login dengan email/token resmi (bukan pengunjung anonim)
                 if (!user.isAnonymous) {
                     navAdmin?.classList.remove('hidden');
                     mobileNavAdmin?.classList.remove('hidden');
                     navLogout?.classList.remove('hidden');
                     mobileNavLogout?.classList.remove('hidden');
                 } else {
-                    // Sembunyikan untuk pengunjung biasa
                     navAdmin?.classList.add('hidden');
                     mobileNavAdmin?.classList.add('hidden');
                     navLogout?.classList.add('hidden');
                     mobileNavLogout?.classList.add('hidden');
                 }
                 loadArticlesFromFirestore();
-                loadSettingsFromFirestore(); // Panggil fungsi ini SETELAH autentikasi selesai
+                loadSettingsFromFirestore();
             }
         });
 
@@ -501,7 +544,6 @@
                 document.getElementById('login-email').value = '';
                 document.getElementById('login-password').value = '';
                 
-                // Notifikasi sukses
                 const notif = document.createElement('div');
                 notif.className = 'fixed bottom-5 right-5 bg-green-500 text-white px-6 py-3 rounded-xl shadow-xl z-[100] transition-opacity duration-300';
                 notif.innerText = 'Berhasil login sebagai Admin!';
@@ -520,11 +562,10 @@
         const handleLogout = async () => {
             try {
                 await signOut(auth);
-                await signInAnonymously(auth); // Kembali sebagai pengunjung anonim
+                await signInAnonymously(auth); 
                 document.getElementById('admin-modal').classList.add('hidden');
                 document.body.style.overflow = 'auto';
                 
-                // Notifikasi logout
                 const notif = document.createElement('div');
                 notif.className = 'fixed bottom-5 right-5 bg-gray-800 text-white px-6 py-3 rounded-xl shadow-xl z-[100] transition-opacity duration-300';
                 notif.innerText = 'Berhasil logout.';
@@ -551,7 +592,6 @@
                     articles.push({ id: docSnap.id, ...docSnap.data() });
                 });
                 
-                // Urutkan artikel dari yang terbaru
                 articles.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
                 
                 renderArticles();
@@ -716,6 +756,7 @@
             const heroTitle = document.getElementById('setting-hero-title').value;
             const heroDesc = document.getElementById('setting-hero-desc').value;
             const aboutDesc = document.getElementById('setting-about-desc').value;
+            const botDesc = document.getElementById('setting-bot-desc').value;
 
             try {
                 btn.disabled = true;
@@ -725,6 +766,7 @@
                     heroTitle,
                     heroDesc,
                     aboutDesc,
+                    botDesc,
                     updatedAt: Date.now()
                 }, { merge: true });
                 
