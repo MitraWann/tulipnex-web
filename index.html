@@ -70,7 +70,6 @@
         .animate-fade-in { animation: fadeInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
     </style>
 </head>
-<!-- Menambahkan overflow-x-hidden dan w-full pada body untuk mencegah layar HP terpotong -->
 <body class="bg-light dark:bg-darker text-slate-800 dark:text-gray-200 antialiased flex flex-col min-h-screen transition-colors duration-300 w-full overflow-x-hidden">
 
     <!-- Navigasi (Navbar) -->
@@ -164,7 +163,7 @@
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                 <h2 class="text-3xl font-bold text-dark dark:text-white">Tentang Saya</h2>
                 <div class="w-16 h-1 bg-primary mx-auto mt-4 rounded"></div>
-                <p id="display-about-desc" class="mt-6 text-gray-600 dark:text-gray-400 leading-relaxed text-lg break-words">
+                <p id="display-about-desc" class="mt-6 text-gray-600 dark:text-gray-400 leading-relaxed text-lg break-words text-left sm:text-center">
                     Saya mulai menulis kode sejak tahun 2018 dan jatuh cinta pada pengembangan web. Melalui blog ini, saya berharap dapat mendokumentasikan perjalanan karir saya, berbagi solusi teknis yang saya temukan, dan sesekali menulis tentang buku atau produktivitas. Ketika tidak sedang di depan komputer, saya biasanya bersepeda atau menikmati kopi di kedai lokal.
                 </p>
             </div>
@@ -194,7 +193,7 @@
                 </div>
                 <h2 class="text-3xl font-bold text-dark dark:text-white">Bot WhatsApp Pintar</h2>
                 <div class="w-16 h-1 bg-primary mx-auto mt-4 rounded"></div>
-                <p id="display-bot-desc" class="mt-6 text-gray-600 dark:text-gray-300 leading-relaxed text-lg mb-10 break-words">
+                <p id="display-bot-desc" class="mt-6 text-gray-600 dark:text-gray-300 leading-relaxed text-lg mb-10 break-words text-left sm:text-center">
                     Halo! Selain menulis di blog, saya juga mengembangkan Bot WhatsApp yang dapat membantu berbagai keperluan Anda. Mulai dari informasi cepat, layanan otomatisasi, hingga fitur interaktif lainnya siap melayani Anda 24/7.
                 </p>
                 <a href="https://wa.me/628989240628?text=.menu" target="_blank" class="inline-flex items-center gap-3 bg-green-500 text-white px-8 py-4 rounded-full font-bold hover:bg-green-600 transition shadow-lg shadow-green-500/30 text-lg border-2 border-transparent hover:border-green-400 hover:scale-105 transform">
@@ -256,7 +255,7 @@
                     </div>
                 </div>
 
-                <!-- Bagian Konten Artikel. overflow-hidden break-words mencegah konten jebol di HP -->
+                <!-- Bagian Konten Artikel -->
                 <div id="baca-body" class="prose prose-sm sm:prose-base lg:prose-lg prose-red dark:prose-invert max-w-none text-gray-600 dark:text-gray-300 leading-relaxed overflow-hidden break-words">
                     <!-- Konten artikel -->
                 </div>
@@ -315,39 +314,56 @@
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Ringkasan Pendek (Excerpt)</label>
                                 <textarea id="form-excerpt" rows="2" class="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-dark dark:text-white rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary" placeholder="Ringkasan singkat untuk halaman depan..."></textarea>
                             </div>
+                            
+                            <!-- Editor Artikel (Normal & HTML) -->
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Konten Lengkap (Mendukung HTML)</label>
+                                <div class="flex justify-between items-center mb-1">
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Konten Lengkap</label>
+                                    <!-- Toggle Mode Editor -->
+                                    <div class="flex bg-gray-100 dark:bg-gray-700 rounded p-1">
+                                        <button type="button" id="btn-mode-normal" class="px-3 py-1 text-xs rounded bg-white dark:bg-gray-800 shadow-sm font-medium text-dark dark:text-white transition">Normal</button>
+                                        <button type="button" id="btn-mode-html" class="px-3 py-1 text-xs rounded text-gray-500 dark:text-gray-400 font-medium transition hover:text-dark dark:hover:text-white">HTML</button>
+                                    </div>
+                                </div>
+                                
+                                <!-- Toolbar Editor -->
                                 <div class="flex flex-wrap gap-2 mb-2">
-                                    <button type="button" id="btn-format-img" class="text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded border border-gray-300 dark:border-gray-600 flex items-center gap-1.5 transition font-medium">
-                                        <i class="fas fa-image"></i> Sisipkan Gambar
+                                    <button type="button" id="btn-format-img" class="text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded border border-gray-300 dark:border-gray-600 flex items-center gap-1.5 transition font-medium" title="Sisipkan Gambar">
+                                        <i class="fas fa-image"></i> <span class="hidden sm:inline">Gambar</span>
                                     </button>
-                                    <button type="button" id="btn-format-link" class="text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded border border-gray-300 dark:border-gray-600 flex items-center gap-1.5 transition font-medium">
-                                        <i class="fas fa-link"></i> Link
+                                    <button type="button" id="btn-format-link" class="text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded border border-gray-300 dark:border-gray-600 flex items-center gap-1.5 transition font-medium" title="Sisipkan Link">
+                                        <i class="fas fa-link"></i> <span class="hidden sm:inline">Link</span>
                                     </button>
-                                    <button type="button" id="btn-format-bold" class="text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded border border-gray-300 dark:border-gray-600 flex items-center gap-1.5 transition font-medium">
-                                        <i class="fas fa-bold"></i> Bold
+                                    <div class="w-px h-6 bg-gray-300 dark:bg-gray-600 mx-1 self-center"></div>
+                                    <button type="button" id="btn-format-bold" class="text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded border border-gray-300 dark:border-gray-600 flex items-center gap-1.5 transition font-medium" title="Tebal">
+                                        <i class="fas fa-bold"></i>
                                     </button>
-                                    <button type="button" id="btn-format-italic" class="text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded border border-gray-300 dark:border-gray-600 flex items-center gap-1.5 transition font-medium">
-                                        <i class="fas fa-italic"></i> Italic
+                                    <button type="button" id="btn-format-italic" class="text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded border border-gray-300 dark:border-gray-600 flex items-center gap-1.5 transition font-medium" title="Miring">
+                                        <i class="fas fa-italic"></i>
                                     </button>
-                                    <!-- Fitur Tambahan Baru -->
-                                    <button type="button" id="btn-format-h2" class="text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded border border-gray-300 dark:border-gray-600 flex items-center gap-1.5 transition font-medium" title="Subjudul Utama">
+                                    <div class="w-px h-6 bg-gray-300 dark:bg-gray-600 mx-1 self-center"></div>
+                                    <button type="button" id="btn-format-h2" class="text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded border border-gray-300 dark:border-gray-600 flex items-center gap-1.5 transition font-medium" title="Subjudul H2">
                                         <i class="fas fa-heading"></i> H2
                                     </button>
-                                    <button type="button" id="btn-format-h3" class="text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded border border-gray-300 dark:border-gray-600 flex items-center gap-1.5 transition font-medium" title="Subjudul Kecil">
+                                    <button type="button" id="btn-format-h3" class="text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded border border-gray-300 dark:border-gray-600 flex items-center gap-1.5 transition font-medium" title="Subjudul H3">
                                         <i class="fas fa-heading text-[10px]"></i> H3
                                     </button>
-                                    <button type="button" id="btn-format-ol" class="text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded border border-gray-300 dark:border-gray-600 flex items-center gap-1.5 transition font-medium">
-                                        <i class="fas fa-list-ol"></i> List Angka
+                                    <div class="w-px h-6 bg-gray-300 dark:bg-gray-600 mx-1 self-center"></div>
+                                    <button type="button" id="btn-format-ol" class="text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded border border-gray-300 dark:border-gray-600 flex items-center gap-1.5 transition font-medium" title="List Angka">
+                                        <i class="fas fa-list-ol"></i>
                                     </button>
-                                    <button type="button" id="btn-format-ul" class="text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded border border-gray-300 dark:border-gray-600 flex items-center gap-1.5 transition font-medium">
-                                        <i class="fas fa-list-ul"></i> List Titik
+                                    <button type="button" id="btn-format-ul" class="text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded border border-gray-300 dark:border-gray-600 flex items-center gap-1.5 transition font-medium" title="List Titik">
+                                        <i class="fas fa-list-ul"></i>
                                     </button>
-                                    <button type="button" id="btn-format-quote" class="text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded border border-gray-300 dark:border-gray-600 flex items-center gap-1.5 transition font-medium">
-                                        <i class="fas fa-quote-right"></i> Kutipan
+                                    <button type="button" id="btn-format-quote" class="text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded border border-gray-300 dark:border-gray-600 flex items-center gap-1.5 transition font-medium" title="Kutipan (Quote)">
+                                        <i class="fas fa-quote-right"></i>
                                     </button>
                                 </div>
-                                <textarea id="form-content" rows="12" class="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-dark dark:text-white rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary font-mono text-sm" placeholder="<p>Isi artikel di sini...</p>"></textarea>
+                                
+                                <!-- Mode 1: Editor Normal (Rich Text) -->
+                                <div id="editor-normal" contenteditable="true" class="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-dark dark:text-white rounded-lg p-4 outline-none focus:ring-2 focus:ring-primary prose prose-sm sm:prose-base dark:prose-invert max-w-none min-h-[300px] overflow-y-auto"></div>
+                                <!-- Mode 2: Editor HTML (Textarea) -->
+                                <textarea id="form-content" rows="12" class="hidden w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-dark dark:text-white rounded-lg p-4 outline-none focus:ring-2 focus:ring-primary font-mono text-sm leading-relaxed" placeholder="<p>Isi kode HTML artikel di sini...</p>"></textarea>
                             </div>
                             <div id="form-error" class="hidden text-primary text-sm mt-2"></div>
                         </div>
@@ -368,7 +384,8 @@
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Deskripsi "Tentang Saya"</label>
-                                <textarea id="setting-about-desc" rows="6" class="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-dark dark:text-white rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary" placeholder="Ceritakan tentang diri Anda..."></textarea>
+                                <textarea id="setting-about-desc" rows="6" class="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-dark dark:text-white rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary leading-relaxed" placeholder="Ceritakan tentang diri Anda..."></textarea>
+                                <p class="text-xs text-gray-500 mt-1">Tekan <b>Enter</b> untuk memisahkan paragraf. Baris baru akan otomatis tersimpan.</p>
                             </div>
                         </div>
                         <div class="mt-6 flex justify-end">
@@ -387,11 +404,11 @@
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Judul Hero Utama</label>
                                 <input type="text" id="setting-hero-title" class="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-dark dark:text-white rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary" placeholder='Halo, Saya <span class="text-primary">Mitrawan</span>'>
-                                <p class="text-xs text-gray-500 mt-1">Anda bisa menggunakan tag HTML seperti &lt;span class="text-primary"&gt;Teks&lt;/span&gt; untuk memberi warna khusus.</p>
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Deskripsi Hero Singkat</label>
-                                <textarea id="setting-hero-desc" rows="4" class="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-dark dark:text-white rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary"></textarea>
+                                <textarea id="setting-hero-desc" rows="4" class="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-dark dark:text-white rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary leading-relaxed"></textarea>
+                                <p class="text-xs text-gray-500 mt-1">Tekan <b>Enter</b> untuk memisahkan paragraf.</p>
                             </div>
                         </div>
                         <div class="mt-6 flex justify-end">
@@ -405,7 +422,8 @@
                         <div class="space-y-4">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Deskripsi Halaman Bot WhatsApp</label>
-                                <textarea id="setting-bot-desc" rows="5" class="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-dark dark:text-white rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary"></textarea>
+                                <textarea id="setting-bot-desc" rows="5" class="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-dark dark:text-white rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary leading-relaxed"></textarea>
+                                <p class="text-xs text-gray-500 mt-1">Tekan <b>Enter</b> untuk memisahkan paragraf.</p>
                             </div>
                         </div>
                         <div class="mt-6 flex justify-end">
@@ -469,6 +487,11 @@
         const safeGetHTML = (id) => { const el = getEl(id); return el ? el.innerHTML.trim() : ''; };
         const safeGetSrc = (id) => { const el = getEl(id); return el ? el.src : ''; };
         const safeGetValue = (id) => { const el = getEl(id); return el ? el.value.trim() : ''; };
+
+        // Helper untuk mengubah Enter/New Line menjadi <br> tag saat ditampilkan
+        const nl2br = (str) => { return str ? str.replace(/(?:\r\n|\r|\n)/g, '<br>') : ''; };
+        // Helper untuk mengubah <br> tag kembali menjadi Enter/New Line saat di-edit di textarea
+        const br2nl = (str) => { return str ? str.replace(/<br\s*[\/]?>/gi, '\n') : ''; };
 
         // --- Logika Theme Toggle ---
         const themeToggleBtns = [getEl('theme-toggle'), getEl('theme-toggle-mobile')];
@@ -605,16 +628,20 @@
                     if(data.heroTitle) { safeSetHTML('display-hero-title', data.heroTitle); safeSetValue('setting-hero-title', data.heroTitle); }
                     if(data.heroImage) { safeSetSrc('display-hero-image', data.heroImage); safeSetValue('setting-hero-image', data.heroImage); }
                     else { safeSetValue('setting-hero-image', safeGetSrc('display-hero-image')); }
-                    if(data.heroDesc) { safeSetHTML('display-hero-desc', data.heroDesc); safeSetValue('setting-hero-desc', data.heroDesc); }
-                    if(data.aboutDesc) { safeSetHTML('display-about-desc', data.aboutDesc); safeSetValue('setting-about-desc', data.aboutDesc); }
-                    if(data.botDesc) { safeSetHTML('display-bot-desc', data.botDesc); safeSetValue('setting-bot-desc', data.botDesc); }
+                    
+                    // Render pengaturan teks dengan format baris baru (multi-paragraf)
+                    if(data.heroDesc) { safeSetHTML('display-hero-desc', nl2br(data.heroDesc)); safeSetValue('setting-hero-desc', data.heroDesc); }
+                    if(data.aboutDesc) { safeSetHTML('display-about-desc', nl2br(data.aboutDesc)); safeSetValue('setting-about-desc', data.aboutDesc); }
+                    if(data.botDesc) { safeSetHTML('display-bot-desc', nl2br(data.botDesc)); safeSetValue('setting-bot-desc', data.botDesc); }
                 } else {
+                    // Fallback jika belum pernah ada data
                     safeSetValue('setting-hero-subtitle', safeGetHTML('display-hero-subtitle'));
                     safeSetValue('setting-hero-title', safeGetHTML('display-hero-title'));
                     safeSetValue('setting-hero-image', safeGetSrc('display-hero-image'));
-                    safeSetValue('setting-hero-desc', safeGetHTML('display-hero-desc'));
-                    safeSetValue('setting-about-desc', safeGetHTML('display-about-desc'));
-                    safeSetValue('setting-bot-desc', safeGetHTML('display-bot-desc'));
+                    
+                    safeSetValue('setting-hero-desc', br2nl(safeGetHTML('display-hero-desc')));
+                    safeSetValue('setting-about-desc', br2nl(safeGetHTML('display-about-desc')));
+                    safeSetValue('setting-bot-desc', br2nl(safeGetHTML('display-bot-desc')));
                 }
             }, (error) => {
                 console.error("Gagal mengambil pengaturan:", error);
@@ -843,63 +870,115 @@
             btnSummarize.disabled = false;
         });
 
-        // --- Fitur Bantuan Toolbar Editor ---
-        function insertTextAtCursor(element, text) {
-            if (!element) return;
-            if (element.selectionStart || element.selectionStart === '0') {
-                const startPos = element.selectionStart;
-                const endPos = element.selectionEnd;
-                element.value = element.value.substring(0, startPos) + text + element.value.substring(endPos, element.value.length);
-                element.selectionStart = startPos + text.length;
-                element.selectionEnd = startPos + text.length;
-            } else {
-                element.value += text;
+        // --- Logika Editor (HTML vs Normal Mode) & Toolbar ---
+        let isHtmlMode = false;
+        const btnModeNormal = getEl('btn-mode-normal');
+        const btnModeHtml = getEl('btn-mode-html');
+        const editorNormal = getEl('editor-normal');
+        const editorHtml = getEl('form-content');
+
+        // Fungsi Switch ke Mode Normal
+        btnModeNormal?.addEventListener('click', () => {
+            if (!isHtmlMode) return;
+            isHtmlMode = false;
+            if (editorNormal && editorHtml) editorNormal.innerHTML = editorHtml.value;
+            
+            btnModeNormal.className = 'px-3 py-1 text-xs rounded bg-white dark:bg-gray-800 shadow-sm font-medium text-dark dark:text-white transition';
+            btnModeHtml.className = 'px-3 py-1 text-xs rounded text-gray-500 dark:text-gray-400 font-medium transition hover:text-dark dark:hover:text-white';
+            
+            editorNormal?.classList.remove('hidden');
+            editorHtml?.classList.add('hidden');
+        });
+
+        // Fungsi Switch ke Mode HTML
+        btnModeHtml?.addEventListener('click', () => {
+            if (isHtmlMode) return;
+            isHtmlMode = true;
+            if (editorHtml && editorNormal) editorHtml.value = editorNormal.innerHTML;
+            
+            btnModeHtml.className = 'px-3 py-1 text-xs rounded bg-white dark:bg-gray-800 shadow-sm font-medium text-dark dark:text-white transition';
+            btnModeNormal.className = 'px-3 py-1 text-xs rounded text-gray-500 dark:text-gray-400 font-medium transition hover:text-dark dark:hover:text-white';
+            
+            editorHtml?.classList.remove('hidden');
+            editorNormal?.classList.add('hidden');
+        });
+
+        // Helper untuk memasukkan teks/perintah ke editor yang aktif
+        function executeOrInsert(command, htmlString) {
+            if (isHtmlMode && editorHtml) {
+                // Untuk Mode HTML (Textarea)
+                if (editorHtml.selectionStart || editorHtml.selectionStart === '0') {
+                    const startPos = editorHtml.selectionStart;
+                    const endPos = editorHtml.selectionEnd;
+                    editorHtml.value = editorHtml.value.substring(0, startPos) + htmlString + editorHtml.value.substring(endPos, editorHtml.value.length);
+                    editorHtml.selectionStart = startPos + htmlString.length;
+                    editorHtml.selectionEnd = startPos + htmlString.length;
+                } else {
+                    editorHtml.value += htmlString;
+                }
+                editorHtml.focus();
+            } else if (!isHtmlMode && editorNormal) {
+                // Untuk Mode Normal (Rich Text Div)
+                editorNormal.focus();
+                if (command === 'insertHTML') {
+                    document.execCommand('insertHTML', false, htmlString);
+                } else if (command === 'formatBlock') {
+                    document.execCommand('formatBlock', false, htmlString);
+                } else {
+                    document.execCommand(command, false, null);
+                }
             }
-            element.focus();
         }
 
+        // Event Listener Toolbar
         getEl('btn-format-img')?.addEventListener('click', () => {
             const url = prompt('Masukkan URL/Link Gambar Ilustrasi:');
             if (url) {
-                const imgTag = `\n<figure><img src="${url}" alt="Ilustrasi" class="w-full rounded-2xl shadow-md my-6"></figure>\n`;
-                insertTextAtCursor(getEl('form-content'), imgTag);
+                const imgHtml = `<figure><img src="${url}" alt="Ilustrasi" class="w-full rounded-2xl shadow-md my-6"></figure><br>`;
+                executeOrInsert('insertHTML', imgHtml);
             }
         });
 
         getEl('btn-format-link')?.addEventListener('click', () => {
             const url = prompt('Masukkan URL/Link Tujuan:');
             if (url) {
-                insertTextAtCursor(getEl('form-content'), `<a href="${url}" target="_blank" class="text-primary hover:underline">Teks Link Anda</a>`);
+                if (!isHtmlMode) {
+                    // Coba deteksi teks yang diblok
+                    const selection = window.getSelection();
+                    const selectedText = selection.toString() || 'Teks Link Anda';
+                    document.execCommand('insertHTML', false, `<a href="${url}" target="_blank" class="text-primary hover:underline font-medium">${selectedText}</a>`);
+                } else {
+                    executeOrInsert('insertHTML', `<a href="${url}" target="_blank" class="text-primary hover:underline font-medium">Teks Link Anda</a>`);
+                }
             }
         });
 
-        getEl('btn-format-bold')?.addEventListener('click', () => {
-            insertTextAtCursor(getEl('form-content'), `<strong>Teks Tebal</strong>`);
-        });
-
-        getEl('btn-format-italic')?.addEventListener('click', () => {
-            insertTextAtCursor(getEl('form-content'), `<em>Teks Miring</em>`);
-        });
-
-        // Event Listener Fitur Tambahan
+        getEl('btn-format-bold')?.addEventListener('click', () => executeOrInsert('bold', `<strong>Teks Tebal</strong>`));
+        getEl('btn-format-italic')?.addEventListener('click', () => executeOrInsert('italic', `<em>Teks Miring</em>`));
+        
         getEl('btn-format-h2')?.addEventListener('click', () => {
-            insertTextAtCursor(getEl('form-content'), `\n<h2>Subjudul Besar (H2)</h2>\n`);
+            if (isHtmlMode) executeOrInsert('', `\n<h2>Subjudul Utama (H2)</h2>\n`);
+            else executeOrInsert('formatBlock', 'H2');
         });
 
         getEl('btn-format-h3')?.addEventListener('click', () => {
-            insertTextAtCursor(getEl('form-content'), `\n<h3>Subjudul Kecil (H3)</h3>\n`);
+            if (isHtmlMode) executeOrInsert('', `\n<h3>Subjudul Kecil (H3)</h3>\n`);
+            else executeOrInsert('formatBlock', 'H3');
         });
 
         getEl('btn-format-ol')?.addEventListener('click', () => {
-            insertTextAtCursor(getEl('form-content'), `\n<ol>\n  <li>Poin pertama</li>\n  <li>Poin kedua</li>\n</ol>\n`);
+            if (isHtmlMode) executeOrInsert('', `\n<ol>\n  <li>Poin pertama</li>\n  <li>Poin kedua</li>\n</ol>\n`);
+            else executeOrInsert('insertOrderedList');
         });
 
         getEl('btn-format-ul')?.addEventListener('click', () => {
-            insertTextAtCursor(getEl('form-content'), `\n<ul>\n  <li>Poin pertama</li>\n  <li>Poin kedua</li>\n</ul>\n`);
+            if (isHtmlMode) executeOrInsert('', `\n<ul>\n  <li>Poin pertama</li>\n  <li>Poin kedua</li>\n</ul>\n`);
+            else executeOrInsert('insertUnorderedList');
         });
 
         getEl('btn-format-quote')?.addEventListener('click', () => {
-            insertTextAtCursor(getEl('form-content'), `\n<blockquote>Tuliskan kutipan menarik di sini...</blockquote>\n`);
+            if (isHtmlMode) executeOrInsert('', `\n<blockquote>Tuliskan kutipan menarik di sini...</blockquote>\n`);
+            else executeOrInsert('formatBlock', 'BLOCKQUOTE');
         });
 
         // --- Logika Admin Panel (CRUD Artikel & Tab Menus) ---
@@ -938,11 +1017,14 @@
             const btn = e.target;
             const originalText = btn.innerText;
             
+            // Pengaturan Profil Utama
+            const heroImage = safeGetValue('setting-hero-image');
+            const aboutDesc = safeGetValue('setting-about-desc');
+            // Pengaturan Beranda
             const heroSubtitle = safeGetValue('setting-hero-subtitle');
             const heroTitle = safeGetValue('setting-hero-title');
-            const heroImage = safeGetValue('setting-hero-image');
             const heroDesc = safeGetValue('setting-hero-desc');
-            const aboutDesc = safeGetValue('setting-about-desc');
+            // Pengaturan Ekstra
             const botDesc = safeGetValue('setting-bot-desc');
 
             try {
@@ -1009,6 +1091,9 @@
             safeSetValue('form-category', article.category || '');
             safeSetValue('form-image', article.image || '');
             safeSetValue('form-excerpt', article.excerpt || '');
+            
+            // Set konten ke kedua editor (Normal & HTML)
+            safeSetHTML('editor-normal', article.content || '');
             safeSetValue('form-content', article.content || '');
             
             getEl('admin-body')?.classList.add('hidden');
@@ -1045,6 +1130,9 @@
             safeSetValue('form-category', '');
             safeSetValue('form-image', '');
             safeSetValue('form-excerpt', '');
+            
+            // Kosongkan kedua editor
+            safeSetHTML('editor-normal', '');
             safeSetValue('form-content', '');
             
             getEl('admin-body')?.classList.add('hidden');
@@ -1062,7 +1150,10 @@
             const category = safeGetValue('form-category');
             const image = safeGetValue('form-image');
             const excerpt = safeGetValue('form-excerpt');
-            const content = safeGetValue('form-content');
+            
+            // Ambil konten dari mode editor yang sedang aktif
+            const content = isHtmlMode ? safeGetValue('form-content') : safeGetHTML('editor-normal');
+            
             const errorMsg = getEl('form-error');
 
             if(!title || !content) {
