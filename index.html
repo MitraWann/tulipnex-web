@@ -9,11 +9,14 @@
     <!-- Konfigurasi warna kustom Tailwind -->
     <script>
         tailwind.config = {
+            darkMode: 'class', // Mengaktifkan dark mode manual berbasis class
             theme: {
                 extend: {
                     colors: {
-                        primary: '#2563eb', // Warna biru utama
-                        dark: '#1e293b',
+                        primary: '#FD3F4D', // Warna merah menyala baru Anda
+                        'primary-hover': '#e03543', // Warna merah sedikit lebih gelap untuk efek hover
+                        dark: '#242333', // Warna background gelap
+                        darker: '#1a1925', // Versi lebih gelap untuk footer/modal
                         light: '#f8fafc'
                     },
                     fontFamily: {
@@ -23,6 +26,16 @@
             }
         }
     </script>
+    
+    <!-- Script Anti-Flicker: Mencegah kedip putih saat dark mode diaktifkan -->
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+
     <!-- Menggunakan Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Menggunakan FontAwesome untuk ikon -->
@@ -35,102 +48,107 @@
             -webkit-box-orient: vertical;  
             overflow: hidden;
         }
-        /* Animasi untuk modal */
-        .modal-enter { opacity: 0; transform: scale(0.95); }
-        .modal-enter-active { opacity: 1; transform: scale(1); transition: all 0.3s ease-out; }
         
-        /* --- Kustomisasi UI Baru --- */
-        /* Scrollbar cantik */
+        /* --- Kustomisasi UI --- */
+        /* Scrollbar adaptif */
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #f8fafc; }
+        html.dark ::-webkit-scrollbar-track { background: #242333; }
+        html:not(.dark) ::-webkit-scrollbar-track { background: #f8fafc; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-        
-        /* Efek Kaca (Glassmorphism) untuk Navbar */
-        .glass-nav { 
-            background: rgba(255, 255, 255, 0.85); 
-            backdrop-filter: blur(12px); 
-            -webkit-backdrop-filter: blur(12px); 
-        }
+        html.dark ::-webkit-scrollbar-thumb { background: #4a4860; }
+        ::-webkit-scrollbar-thumb:hover { background: #FD3F4D; }
         
         /* Animasi Transisi Halaman (Fade In Up) */
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .animate-fade-in { animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        .animate-fade-in { animation: fadeInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
     </style>
 </head>
-<body class="bg-light text-slate-800 antialiased flex flex-col min-h-screen">
+<body class="bg-light dark:bg-darker text-slate-800 dark:text-gray-200 antialiased flex flex-col min-h-screen transition-colors duration-300">
 
     <!-- Navigasi (Navbar) -->
-    <nav class="glass-nav shadow-sm sticky top-0 z-40 border-b border-gray-100 transition-all duration-300">
+    <nav class="bg-white/90 dark:bg-[#242333]/90 backdrop-blur-md shadow-sm dark:shadow-md sticky top-0 z-40 border-b border-gray-100 dark:border-gray-800 transition-colors duration-300">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <div class="flex-shrink-0 flex items-center">
-                    <a href="#beranda" class="text-2xl font-bold text-primary tracking-tight">Mitra<span class="text-dark">Wann.</span></a>
+                    <a href="#beranda" class="text-2xl font-bold text-primary tracking-tight">Mitra<span class="text-dark dark:text-white">Wann.</span></a>
                 </div>
                 <!-- Menu Desktop -->
                 <div class="hidden md:flex space-x-6 items-center">
-                    <a href="#beranda" class="nav-link text-gray-600 hover:text-primary transition font-medium">Beranda</a>
-                    <a href="#tentang" class="nav-link text-gray-600 hover:text-primary transition font-medium">Tentang</a>
-                    <a href="#artikel" class="nav-link text-gray-600 hover:text-primary transition font-medium">Artikel</a>
-                    <a href="#bot-wa" class="nav-link text-gray-600 hover:text-primary transition font-medium">Bot WA</a>
-                    <a href="#kontak" class="bg-primary text-white px-5 py-2 rounded-full hover:bg-blue-700 transition font-medium shadow-md shadow-blue-200">Kontak Saya</a>
-                    <a href="#admin-dashboard" id="nav-admin" class="hidden text-dark hover:text-primary transition font-bold border border-gray-300 px-4 py-2 rounded-full">Admin</a>
-                    <button id="nav-logout" class="hidden text-red-500 hover:text-red-700 transition font-bold px-4 py-2">Logout</button>
+                    <a href="#beranda" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition font-medium">Beranda</a>
+                    <a href="#tentang" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition font-medium">Tentang</a>
+                    <a href="#artikel" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition font-medium">Artikel</a>
+                    <a href="#bot-wa" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition font-medium">Bot WA</a>
+                    
+                    <!-- Toggle Theme Desktop -->
+                    <button id="theme-toggle" class="text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition focus:outline-none w-8 h-8 rounded-full flex items-center justify-center bg-gray-100 dark:bg-gray-800">
+                        <i class="theme-icon fas fa-moon"></i>
+                    </button>
+
+                    <a href="#kontak" class="bg-primary text-white px-5 py-2 rounded-full hover:bg-primary-hover transition font-medium shadow-lg shadow-red-500/20">Kontak Saya</a>
+                    <a href="#admin-dashboard" id="nav-admin" class="hidden text-dark dark:text-gray-300 hover:text-primary dark:hover:text-primary transition font-bold border border-gray-300 dark:border-gray-600 px-4 py-2 rounded-full">Admin</a>
+                    <button id="nav-logout" class="hidden text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-primary transition font-bold px-4 py-2">Logout</button>
                 </div>
                 <!-- Tombol Menu Mobile -->
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="text-gray-600 hover:text-dark focus:outline-none">
+                <div class="md:hidden flex items-center gap-4">
+                    <!-- Toggle Theme Mobile -->
+                    <button id="theme-toggle-mobile" class="text-gray-500 dark:text-gray-400 hover:text-primary transition focus:outline-none w-8 h-8 rounded-full flex items-center justify-center bg-gray-100 dark:bg-gray-800">
+                        <i class="theme-icon fas fa-moon"></i>
+                    </button>
+                    <button id="mobile-menu-btn" class="text-gray-600 dark:text-gray-300 hover:text-dark dark:hover:text-white focus:outline-none">
                         <i class="fas fa-bars text-2xl"></i>
                     </button>
                 </div>
             </div>
         </div>
         <!-- Menu Mobile Dropdown -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#beranda" class="block px-3 py-2 text-gray-600 font-medium hover:bg-gray-50 rounded-md">Beranda</a>
-                <a href="#tentang" class="block px-3 py-2 text-gray-600 font-medium hover:bg-gray-50 rounded-md">Tentang</a>
-                <a href="#artikel" class="block px-3 py-2 text-gray-600 font-medium hover:bg-gray-50 rounded-md">Artikel</a>
-                <a href="#bot-wa" class="block px-3 py-2 text-gray-600 font-medium hover:bg-gray-50 rounded-md">Bot WA</a>
-                <a href="#kontak" class="block px-3 py-2 text-primary font-medium hover:bg-gray-50 rounded-md">Kontak Saya</a>
-                <a href="#admin-dashboard" id="mobile-nav-admin" class="hidden w-full text-left block px-3 py-2 text-dark font-bold hover:bg-gray-50 rounded-md">Admin Dashboard</a>
-                <button id="mobile-nav-logout" class="hidden w-full text-left block px-3 py-2 text-red-500 font-bold hover:bg-gray-50 rounded-md">Logout</button>
+        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-darker border-t border-gray-100 dark:border-gray-800">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 shadow-lg">
+                <a href="#beranda" class="block px-3 py-2 text-gray-600 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition">Beranda</a>
+                <a href="#tentang" class="block px-3 py-2 text-gray-600 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition">Tentang</a>
+                <a href="#artikel" class="block px-3 py-2 text-gray-600 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition">Artikel</a>
+                <a href="#bot-wa" class="block px-3 py-2 text-gray-600 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition">Bot WA</a>
+                <a href="#kontak" class="block px-3 py-2 text-primary font-medium hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition">Kontak Saya</a>
+                <a href="#admin-dashboard" id="mobile-nav-admin" class="hidden w-full text-left block px-3 py-2 text-dark dark:text-gray-300 font-bold hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md">Admin Dashboard</a>
+                <button id="mobile-nav-logout" class="hidden w-full text-left block px-3 py-2 text-red-500 dark:text-red-400 font-bold hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md">Logout</button>
             </div>
         </div>
     </nav>
 
-    <!-- Kontainer Utama (Halaman akan diganti-ganti di sini) -->
+    <!-- Kontainer Utama -->
     <main class="flex-grow flex flex-col">
 
         <!-- Halaman Beranda -->
-        <section id="beranda" class="page-section flex-grow pt-10 pb-16 lg:pt-24 lg:pb-28 overflow-hidden hidden bg-gradient-to-br from-white to-blue-50/50">
-            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section id="beranda" class="page-section flex-grow pt-10 pb-16 lg:pt-24 lg:pb-28 overflow-hidden hidden bg-light dark:bg-dark relative transition-colors duration-300">
+            <!-- Elemen Dekorasi -->
+            <div class="absolute top-0 right-0 -mt-20 -mr-20 w-80 h-80 bg-primary opacity-[0.08] dark:opacity-[0.15] rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 left-0 -mb-20 -ml-20 w-72 h-72 bg-primary opacity-[0.08] dark:opacity-[0.15] rounded-full blur-3xl"></div>
+            
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div class="flex flex-col-reverse lg:flex-row items-center gap-12">
                     <div class="w-full lg:w-1/2 text-center lg:text-left">
                         <span id="display-hero-subtitle" class="text-primary font-semibold tracking-wide uppercase text-sm">Selamat Datang di Blog Saya</span>
-                        <h1 id="display-hero-title" class="mt-3 text-4xl sm:text-5xl lg:text-6xl font-extrabold text-dark leading-tight">
+                        <h1 id="display-hero-title" class="mt-3 text-4xl sm:text-5xl lg:text-6xl font-extrabold text-dark dark:text-white leading-tight transition-colors duration-300">
                             Halo, Saya <span class="text-primary">Mitrawan</span>
                         </h1>
-                        <p id="display-hero-desc" class="mt-5 text-lg text-gray-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                        <p id="display-hero-desc" class="mt-5 text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto lg:mx-0 leading-relaxed transition-colors duration-300">
                             Seorang penulis lepas, pengembang web, dan pembelajar seumur hidup. Di sini saya membagikan pemikiran, tutorial, dan pengalaman saya dalam dunia teknologi dan kehidupan sehari-hari.
                         </p>
                         <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                            <a href="#artikel" class="bg-primary text-white px-8 py-3 rounded-full font-medium hover:bg-blue-700 transition shadow-lg shadow-blue-200">
+                            <a href="#artikel" class="bg-primary text-white px-8 py-3 rounded-full font-medium hover:bg-primary-hover transition shadow-lg shadow-red-500/20">
                                 Baca Artikel
                             </a>
-                            <a href="#kontak" class="bg-white text-gray-700 border border-gray-300 px-8 py-3 rounded-full font-medium hover:bg-gray-50 transition">
+                            <a href="#kontak" class="bg-transparent border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 px-8 py-3 rounded-full font-medium hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-dark dark:hover:text-white transition">
                                 Hubungi Saya
                             </a>
                         </div>
                     </div>
                     <div class="w-full lg:w-1/2 flex justify-center lg:justify-end">
                         <div class="relative w-64 h-64 sm:w-80 sm:h-80">
-                            <div class="absolute inset-0 bg-primary rounded-full opacity-10 blur-2xl transform scale-110"></div>
-                            <!-- Tambahkan ID 'display-hero-image' agar gambarnya bisa diubah via Javascript -->
-                            <img id="display-hero-image" src="https://files.catbox.moe/3t0jyz.jpg" alt="Foto Profil" class="relative rounded-full object-cover w-full h-full shadow-2xl border-4 border-white" onerror="this.src='https://ui-avatars.com/api/?name=Mitrawan&size=512&background=2563eb&color=fff'">
+                            <div class="absolute inset-0 bg-primary rounded-full opacity-20 blur-2xl transform scale-110"></div>
+                            <img id="display-hero-image" src="https://files.catbox.moe/3t0jyz.jpg" alt="Foto Profil" class="relative rounded-full object-cover w-full h-full shadow-2xl border-4 border-white dark:border-[#302e45] transition-colors duration-300" onerror="this.src='https://ui-avatars.com/api/?name=Mitrawan&size=512&background=FD3F4D&color=fff'">
                         </div>
                     </div>
                 </div>
@@ -138,22 +156,22 @@
         </section>
 
         <!-- Halaman Tentang -->
-        <section id="tentang" class="page-section py-20 bg-white flex-grow hidden">
+        <section id="tentang" class="page-section py-20 bg-white dark:bg-darker flex-grow hidden transition-colors duration-300">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h2 class="text-3xl font-bold text-dark">Tentang Saya</h2>
+                <h2 class="text-3xl font-bold text-dark dark:text-white">Tentang Saya</h2>
                 <div class="w-16 h-1 bg-primary mx-auto mt-4 rounded"></div>
-                <p id="display-about-desc" class="mt-6 text-gray-600 leading-relaxed text-lg">
+                <p id="display-about-desc" class="mt-6 text-gray-600 dark:text-gray-400 leading-relaxed text-lg">
                     Saya mulai menulis kode sejak tahun 2018 dan jatuh cinta pada pengembangan web. Melalui blog ini, saya berharap dapat mendokumentasikan perjalanan karir saya, berbagi solusi teknis yang saya temukan, dan sesekali menulis tentang buku atau produktivitas. Ketika tidak sedang di depan komputer, saya biasanya bersepeda atau menikmati kopi di kedai lokal.
                 </p>
             </div>
         </section>
 
         <!-- Halaman Artikel -->
-        <section id="artikel" class="page-section py-20 bg-gray-50 flex-grow hidden">
+        <section id="artikel" class="page-section py-20 bg-light dark:bg-dark flex-grow hidden transition-colors duration-300">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-end mb-10">
                     <div>
-                        <h2 class="text-3xl font-bold text-dark">Daftar Artikel</h2>
+                        <h2 class="text-3xl font-bold text-dark dark:text-white">Daftar Artikel</h2>
                         <div class="w-16 h-1 bg-primary mt-4 rounded"></div>
                     </div>
                 </div>
@@ -165,44 +183,44 @@
         </section>
 
         <!-- Halaman Bot WA -->
-        <section id="bot-wa" class="page-section py-20 bg-gradient-to-b from-white to-green-50 flex-grow hidden">
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <div class="w-24 h-24 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6 text-white text-5xl shadow-lg shadow-green-200 transform transition hover:scale-110 duration-300">
+        <section id="bot-wa" class="page-section py-20 bg-gray-50 dark:bg-darker flex-grow hidden relative transition-colors duration-300">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+                <div class="w-24 h-24 bg-primary/10 dark:bg-primary/20 border-2 border-primary/50 dark:border-primary rounded-full flex items-center justify-center mx-auto mb-6 text-primary text-5xl shadow-lg shadow-red-500/10 dark:shadow-red-500/20 transform transition hover:scale-110 duration-300">
                     <i class="fas fa-robot"></i>
                 </div>
-                <h2 class="text-3xl font-bold text-dark">Bot WhatsApp Pintar</h2>
-                <div class="w-16 h-1 bg-green-500 mx-auto mt-4 rounded"></div>
-                <p id="display-bot-desc" class="mt-6 text-gray-600 leading-relaxed text-lg mb-10">
+                <h2 class="text-3xl font-bold text-dark dark:text-white">Bot WhatsApp Pintar</h2>
+                <div class="w-16 h-1 bg-primary mx-auto mt-4 rounded"></div>
+                <p id="display-bot-desc" class="mt-6 text-gray-600 dark:text-gray-300 leading-relaxed text-lg mb-10">
                     Halo! Selain menulis di blog, saya juga mengembangkan Bot WhatsApp yang dapat membantu berbagai keperluan Anda. Mulai dari informasi cepat, layanan otomatisasi, hingga fitur interaktif lainnya siap melayani Anda 24/7.
                 </p>
-                <a href="https://wa.me/628989240628?text=.menu" target="_blank" class="inline-flex items-center gap-3 bg-green-500 text-white px-8 py-4 rounded-full font-bold hover:bg-green-600 transition shadow-lg shadow-green-200 text-lg border-2 border-transparent hover:border-green-400 hover:scale-105 transform">
+                <a href="https://wa.me/628989240628?text=.menu" target="_blank" class="inline-flex items-center gap-3 bg-green-500 text-white px-8 py-4 rounded-full font-bold hover:bg-green-600 transition shadow-lg shadow-green-500/30 text-lg border-2 border-transparent hover:border-green-400 hover:scale-105 transform">
                     <i class="fab fa-whatsapp text-2xl"></i> Hubungi Bot Sekarang
                 </a>
-                <p class="mt-4 text-sm text-gray-500">Atau simpan nomor: +62 898-9240-628</p>
+                <p class="mt-4 text-sm text-gray-500 dark:text-gray-400">Atau simpan nomor: +62 898-9240-628</p>
             </div>
         </section>
 
         <!-- Halaman Kontak -->
-        <section id="kontak" class="page-section py-20 bg-white flex-grow hidden">
+        <section id="kontak" class="page-section py-20 bg-white dark:bg-dark flex-grow hidden transition-colors duration-300">
             <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h2 class="text-3xl font-bold text-dark">Mari Berkolaborasi</h2>
+                <h2 class="text-3xl font-bold text-dark dark:text-white">Mari Berkolaborasi</h2>
                 <div class="w-16 h-1 bg-primary mx-auto mt-4 mb-8 rounded"></div>
-                <p class="text-gray-600 mb-8 text-lg">
+                <p class="text-gray-600 dark:text-gray-400 mb-8 text-lg">
                     Punya ide proyek, tawaran pekerjaan, atau sekadar ingin menyapa? Kotak masuk saya selalu terbuka.
                 </p>
 
-                <a href="mailto:wmitrawan@gmail.com" target="_blank" class="inline-flex items-center gap-2 bg-dark text-white px-8 py-4 rounded-full font-medium hover:bg-gray-800 transition shadow-lg">
+                <a href="mailto:wmitrawan@gmail.com" target="_blank" class="inline-flex items-center gap-2 bg-dark dark:bg-white text-white dark:text-dark px-8 py-4 rounded-full font-medium hover:bg-gray-800 dark:hover:bg-gray-200 transition shadow-lg">
                     <i class="fas fa-envelope"></i> Kirim Email ke Saya
                 </a>
                 
                 <div class="mt-12 flex justify-center gap-6">
-                    <a href="https://wa.me/6282215415550" target="_blank" class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-primary hover:text-white transition text-xl">
+                    <a href="https://wa.me/6282215415550" target="_blank" class="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:bg-primary hover:text-white dark:hover:bg-primary dark:hover:text-white transition text-xl shadow-sm">
                         <i class="fab fa-whatsapp"></i>
                     </a>
-                    <a href="https://www.instagram.com/mitrawann?igsh=MW5iMjRsdmJmY29pMg%3D%3D" target="_blank" class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-primary hover:text-white transition text-xl">
+                    <a href="https://www.instagram.com/mitrawann?igsh=MW5iMjRsdmJmY29pMg%3D%3D" target="_blank" class="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:bg-primary hover:text-white dark:hover:bg-primary dark:hover:text-white transition text-xl shadow-sm">
                         <i class="fab fa-instagram"></i>
                     </a>
-                    <a href="#" class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-primary hover:text-white transition text-xl">
+                    <a href="#" class="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:bg-primary hover:text-white dark:hover:bg-primary dark:hover:text-white transition text-xl shadow-sm">
                         <i class="fab fa-linkedin-in"></i>
                     </a>
                 </div>
@@ -210,55 +228,54 @@
         </section>
 
         <!-- Halaman Baca Artikel -->
-        <section id="baca-artikel" class="page-section py-10 sm:py-20 bg-white flex-grow hidden">
+        <section id="baca-artikel" class="page-section py-10 sm:py-20 bg-white dark:bg-darker flex-grow hidden transition-colors duration-300">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                <!-- Tombol Kembali -->
-                <a href="#artikel" class="inline-flex items-center text-gray-500 hover:text-primary font-medium mb-6 sm:mb-8 transition bg-gray-50 hover:bg-blue-50 px-4 py-2 rounded-lg">
+                <a href="#artikel" class="inline-flex items-center text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary font-medium mb-6 sm:mb-8 transition bg-gray-50 dark:bg-gray-800 hover:bg-red-50 dark:hover:bg-red-900/20 px-4 py-2 rounded-lg">
                     <i class="fas fa-arrow-left mr-2"></i> Kembali ke Daftar Artikel
                 </a>
 
                 <img id="baca-img" src="" alt="Thumbnail" class="w-full h-56 sm:h-72 md:h-96 object-cover rounded-2xl mb-8 hidden shadow-sm">
                 
-                <div class="flex items-center gap-4 text-sm text-gray-500 mb-6">
+                <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-6">
                     <span id="baca-date"><i class="far fa-calendar-alt mr-2"></i>-</span>
-                    <span id="baca-category" class="bg-blue-50 text-primary px-3 py-1 rounded-full font-medium">-</span>
+                    <span id="baca-category" class="bg-red-50 dark:bg-red-500/10 text-primary px-3 py-1 rounded-full font-medium">-</span>
                 </div>
                 
-                <h1 id="baca-title" class="text-3xl sm:text-4xl lg:text-5xl font-bold text-dark mb-6 leading-tight">Judul Artikel</h1>
+                <h1 id="baca-title" class="text-3xl sm:text-4xl lg:text-5xl font-bold text-dark dark:text-white mb-6 leading-tight">Judul Artikel</h1>
                 
                 <!-- Fitur ✨ AI Summarizer -->
                 <div class="mb-10">
-                    <button id="btn-summarize" class="bg-indigo-50 text-indigo-700 border border-indigo-200 hover:bg-indigo-100 px-4 py-2.5 rounded-xl text-sm font-medium transition flex items-center gap-2 w-fit shadow-sm">
+                    <button id="btn-summarize" class="bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-500/20 hover:bg-red-100 dark:hover:bg-red-500/20 px-4 py-2.5 rounded-xl text-sm font-medium transition flex items-center gap-2 w-fit shadow-sm">
                         <span>✨</span> Ringkas dengan AI
                     </button>
-                    <div id="summary-container" class="hidden mt-4 p-5 bg-indigo-50/50 border border-indigo-100 rounded-xl text-indigo-900 text-sm leading-relaxed">
+                    <div id="summary-container" class="hidden mt-4 p-5 bg-red-50/50 dark:bg-red-500/5 border border-red-100 dark:border-red-500/10 rounded-xl text-red-900 dark:text-red-200 text-sm leading-relaxed">
                     </div>
                 </div>
 
                 <!-- Bagian Konten Artikel -->
-                <div id="baca-body" class="prose prose-sm sm:prose-base lg:prose-lg prose-blue max-w-none text-gray-600 leading-relaxed">
-                    <!-- Konten artikel akan dimasukkan ke sini -->
+                <div id="baca-body" class="prose prose-sm sm:prose-base lg:prose-lg prose-red dark:prose-invert max-w-none text-gray-600 dark:text-gray-300 leading-relaxed">
+                    <!-- Konten artikel -->
                 </div>
             </div>
         </section>
 
         <!-- Halaman Admin Dashboard -->
-        <section id="admin-dashboard" class="page-section py-10 sm:py-20 bg-gray-50 flex-grow hidden">
+        <section id="admin-dashboard" class="page-section py-10 sm:py-20 bg-light dark:bg-dark flex-grow hidden transition-colors duration-300">
             <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col overflow-hidden">
-                    <div class="flex justify-between items-center p-6 border-b border-gray-100 bg-white">
-                        <h2 class="text-2xl font-bold text-dark">Admin Dashboard</h2>
+                <div class="bg-white dark:bg-darker rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 flex flex-col overflow-hidden transition-colors duration-300">
+                    <div class="flex justify-between items-center p-6 border-b border-gray-100 dark:border-gray-700">
+                        <h2 class="text-2xl font-bold text-dark dark:text-white">Admin Dashboard</h2>
                     </div>
 
-                    <div class="flex border-b border-gray-100 bg-gray-50 px-6 pt-4">
-                        <button id="tab-articles-btn" class="px-4 py-2 font-semibold text-primary border-b-2 border-primary focus:outline-none">Kelola Artikel</button>
-                        <button id="tab-settings-btn" class="px-4 py-2 font-semibold text-gray-500 border-b-2 border-transparent hover:text-gray-700 transition focus:outline-none">Pengaturan Teks</button>
+                    <div class="flex border-b border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-6 pt-4 overflow-x-auto">
+                        <button id="tab-articles-btn" class="px-4 py-2 font-semibold text-primary border-b-2 border-primary focus:outline-none whitespace-nowrap transition-colors duration-300">Kelola Artikel</button>
+                        <button id="tab-settings-btn" class="px-4 py-2 font-semibold text-gray-500 dark:text-gray-400 border-b-2 border-transparent hover:text-gray-700 dark:hover:text-gray-200 transition focus:outline-none whitespace-nowrap duration-300">Pengaturan Teks</button>
                     </div>
                     
-                    <div class="p-6 overflow-y-auto bg-white" id="admin-body">
+                    <div class="p-6 overflow-y-auto bg-white dark:bg-darker" id="admin-body">
                         <div class="flex justify-between items-center mb-6">
-                            <h3 class="font-semibold text-lg">Kelola Artikel</h3>
-                            <button id="btn-new-article" class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition shadow-md flex items-center gap-2">
+                            <h3 class="font-semibold text-lg text-dark dark:text-white">Kelola Artikel</h3>
+                            <button id="btn-new-article" class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary-hover transition shadow-md flex items-center gap-2">
                                 <i class="fas fa-plus"></i> Tulis Baru
                             </button>
                         </div>
@@ -266,84 +283,83 @@
                         </div>
                     </div>
 
-                    <div class="p-6 overflow-y-auto bg-white hidden" id="admin-form-container">
-                        <h3 id="form-title-label" class="font-semibold text-lg mb-4">Tulis Artikel Baru</h3>
+                    <div class="p-6 overflow-y-auto bg-white dark:bg-darker hidden" id="admin-form-container">
+                        <h3 id="form-title-label" class="font-semibold text-lg mb-4 text-dark dark:text-white">Tulis Artikel Baru</h3>
                         <div class="space-y-4">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Judul Artikel</label>
-                                <input type="text" id="form-title" class="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary" placeholder="Masukkan judul...">
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Judul Artikel</label>
+                                <input type="text" id="form-title" class="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-dark dark:text-white rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary" placeholder="Masukkan judul...">
                             </div>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
-                                    <input type="text" id="form-category" class="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary" placeholder="Contoh: Teknologi">
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Kategori</label>
+                                    <input type="text" id="form-category" class="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-dark dark:text-white rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary" placeholder="Contoh: Teknologi">
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">URL Gambar Thumbnail</label>
-                                    <input type="text" id="form-image" class="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary" placeholder="https://...">
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">URL Gambar Thumbnail</label>
+                                    <input type="text" id="form-image" class="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-dark dark:text-white rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary" placeholder="https://...">
                                 </div>
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Ringkasan Pendek (Excerpt)</label>
-                                <textarea id="form-excerpt" rows="2" class="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary" placeholder="Ringkasan singkat untuk halaman depan..."></textarea>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Ringkasan Pendek (Excerpt)</label>
+                                <textarea id="form-excerpt" rows="2" class="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-dark dark:text-white rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary" placeholder="Ringkasan singkat untuk halaman depan..."></textarea>
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Konten Lengkap (Mendukung HTML)</label>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Konten Lengkap (Mendukung HTML)</label>
                                 <div class="flex flex-wrap gap-2 mb-2">
-                                    <button type="button" id="btn-format-img" class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1.5 rounded border border-gray-300 flex items-center gap-1.5 transition font-medium">
+                                    <button type="button" id="btn-format-img" class="text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded border border-gray-300 dark:border-gray-600 flex items-center gap-1.5 transition font-medium">
                                         <i class="fas fa-image"></i> Sisipkan Gambar
                                     </button>
-                                    <button type="button" id="btn-format-link" class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1.5 rounded border border-gray-300 flex items-center gap-1.5 transition font-medium">
+                                    <button type="button" id="btn-format-link" class="text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded border border-gray-300 dark:border-gray-600 flex items-center gap-1.5 transition font-medium">
                                         <i class="fas fa-link"></i> Link
                                     </button>
-                                    <button type="button" id="btn-format-bold" class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1.5 rounded border border-gray-300 flex items-center gap-1.5 transition font-medium">
+                                    <button type="button" id="btn-format-bold" class="text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded border border-gray-300 dark:border-gray-600 flex items-center gap-1.5 transition font-medium">
                                         <i class="fas fa-bold"></i> Bold
                                     </button>
-                                    <button type="button" id="btn-format-italic" class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1.5 rounded border border-gray-300 flex items-center gap-1.5 transition font-medium">
+                                    <button type="button" id="btn-format-italic" class="text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded border border-gray-300 dark:border-gray-600 flex items-center gap-1.5 transition font-medium">
                                         <i class="fas fa-italic"></i> Italic
                                     </button>
                                 </div>
-                                <textarea id="form-content" rows="12" class="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary font-mono text-sm" placeholder="<p>Isi artikel di sini...</p>"></textarea>
+                                <textarea id="form-content" rows="12" class="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-dark dark:text-white rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary font-mono text-sm" placeholder="<p>Isi artikel di sini...</p>"></textarea>
                             </div>
-                            <div id="form-error" class="hidden text-red-600 text-sm mt-2"></div>
+                            <div id="form-error" class="hidden text-primary text-sm mt-2"></div>
                         </div>
                         <div class="mt-6 flex gap-3 justify-end">
-                            <button id="btn-cancel-edit" class="px-5 py-2.5 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition">Batal</button>
-                            <button id="btn-save-article" class="px-5 py-2.5 rounded-lg bg-primary text-white font-medium hover:bg-blue-700 transition shadow-md">Simpan Artikel</button>
+                            <button id="btn-cancel-edit" class="px-5 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition">Batal</button>
+                            <button id="btn-save-article" class="px-5 py-2.5 rounded-lg bg-primary text-white font-medium hover:bg-primary-hover transition shadow-md">Simpan Artikel</button>
                         </div>
                     </div>
 
-                    <div class="p-6 overflow-y-auto bg-white hidden" id="admin-settings-container">
-                        <h3 class="font-semibold text-lg mb-4">Pengaturan Teks Website</h3>
+                    <div class="p-6 overflow-y-auto bg-white dark:bg-darker hidden" id="admin-settings-container">
+                        <h3 class="font-semibold text-lg mb-4 text-dark dark:text-white">Pengaturan Teks Website</h3>
                         <div class="space-y-4">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Subjudul Hero</label>
-                                <input type="text" id="setting-hero-subtitle" class="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary" placeholder="Selamat Datang di Blog Saya">
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Subjudul Hero</label>
+                                <input type="text" id="setting-hero-subtitle" class="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-dark dark:text-white rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary" placeholder="Selamat Datang di Blog Saya">
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Judul Hero</label>
-                                <input type="text" id="setting-hero-title" class="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary" placeholder='Halo, Saya <span class="text-primary">Mitrawan</span>'>
-                            </div>
-                            <!-- Tambahan Input untuk Foto Profil -->
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">URL Foto Profil Beranda</label>
-                                <input type="text" id="setting-hero-image" class="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary" placeholder="https://...">
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Judul Hero</label>
+                                <input type="text" id="setting-hero-title" class="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-dark dark:text-white rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary" placeholder='Halo, Saya <span class="text-primary">Mitrawan</span>'>
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Hero</label>
-                                <textarea id="setting-hero-desc" rows="3" class="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary"></textarea>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">URL Foto Profil Beranda</label>
+                                <input type="text" id="setting-hero-image" class="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-dark dark:text-white rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary" placeholder="https://...">
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Tentang Saya</label>
-                                <textarea id="setting-about-desc" rows="4" class="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary"></textarea>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Deskripsi Hero</label>
+                                <textarea id="setting-hero-desc" rows="3" class="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-dark dark:text-white rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary"></textarea>
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Bot WA</label>
-                                <textarea id="setting-bot-desc" rows="4" class="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary"></textarea>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Deskripsi Tentang Saya</label>
+                                <textarea id="setting-about-desc" rows="4" class="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-dark dark:text-white rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary"></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Deskripsi Bot WA</label>
+                                <textarea id="setting-bot-desc" rows="4" class="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-dark dark:text-white rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary"></textarea>
                             </div>
                         </div>
                         <div class="mt-6 flex gap-3 justify-end">
-                            <button id="btn-save-settings" class="px-5 py-2.5 rounded-lg bg-primary text-white font-medium hover:bg-blue-700 transition shadow-md">Simpan Pengaturan</button>
+                            <button id="btn-save-settings" class="px-5 py-2.5 rounded-lg bg-primary text-white font-medium hover:bg-primary-hover transition shadow-md">Simpan Pengaturan</button>
                         </div>
                     </div>
                 </div>
@@ -353,37 +369,37 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-dark py-8 border-t border-gray-800">
+    <footer class="bg-[#1a1925] py-8 border-t border-gray-800 dark:border-gray-900 transition-colors duration-300">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <p class="text-gray-400 text-sm">
                 &copy; <span id="year"></span> Mitrawan.
             </p>
             <p class="text-gray-400 text-sm flex items-center gap-2">
                 Powered by GitHub Pages.
-                <button id="btn-show-login" class="text-gray-600 hover:text-gray-300 focus:outline-none" title="Admin Login"><i class="fas fa-lock text-xs"></i></button>
+                <button id="btn-show-login" class="text-gray-500 hover:text-primary focus:outline-none transition-colors" title="Admin Login"><i class="fas fa-lock text-xs"></i></button>
             </p>
         </div>
     </footer>
 
     <!-- Modal Login Admin -->
     <div id="login-modal" class="fixed inset-0 z-[70] flex items-center justify-center hidden">
-        <div class="absolute inset-0 bg-gray-900 bg-opacity-75 backdrop-blur-sm" id="login-overlay"></div>
-        <div class="relative bg-white w-full max-w-sm mx-4 rounded-2xl shadow-2xl p-6">
+        <div class="absolute inset-0 bg-gray-900/50 dark:bg-darker/80 backdrop-blur-sm" id="login-overlay"></div>
+        <div class="relative bg-white dark:bg-darker w-full max-w-sm mx-4 rounded-2xl shadow-2xl p-6 transition-colors duration-300">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-bold text-dark">Login Admin</h2>
-                <button id="close-login" class="text-gray-400 hover:text-red-500 transition"><i class="fas fa-times"></i></button>
+                <h2 class="text-xl font-bold text-dark dark:text-white">Login Admin</h2>
+                <button id="close-login" class="text-gray-400 hover:text-primary transition"><i class="fas fa-times"></i></button>
             </div>
             <div class="space-y-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                    <input type="email" id="login-email" class="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+                    <input type="email" id="login-email" class="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-dark dark:text-white rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                    <input type="password" id="login-password" class="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Password</label>
+                    <input type="password" id="login-password" class="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-dark dark:text-white rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-primary">
                 </div>
-                <div id="login-error" class="hidden text-red-600 text-sm"></div>
-                <button id="btn-login-submit" class="w-full bg-primary text-white font-medium py-2.5 rounded-lg hover:bg-blue-700 transition shadow-md">Masuk</button>
+                <div id="login-error" class="hidden text-primary text-sm font-medium"></div>
+                <button id="btn-login-submit" class="w-full bg-primary text-white font-medium py-2.5 rounded-lg hover:bg-primary-hover transition shadow-md">Masuk</button>
             </div>
         </div>
     </div>
@@ -394,12 +410,35 @@
         import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, onSnapshot, addDoc, updateDoc, deleteDoc, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+        // --- Logika Theme Toggle ---
+        const themeToggleBtns = [document.getElementById('theme-toggle'), document.getElementById('theme-toggle-mobile')];
+        const themeIcons = document.querySelectorAll('.theme-icon');
+
+        function updateThemeIcons() {
+            const isDark = document.documentElement.classList.contains('dark');
+            themeIcons.forEach(icon => {
+                icon.className = isDark ? 'fas fa-sun text-yellow-400' : 'fas fa-moon';
+            });
+        }
+
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.theme = 'light';
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.theme = 'dark';
+            }
+            updateThemeIcons();
+        }
+
+        themeToggleBtns.forEach(btn => btn?.addEventListener('click', toggleTheme));
+        updateThemeIcons(); // Inisialisasi ikon saat pertama dimuat
+
         // --- SPA Routing Logic ---
         function handleNavigation() {
-            // Ambil hash dari URL (misal: #tentang), jika kosong gunakan #beranda
             let hash = window.location.hash || '#beranda';
             
-            // Cegah halaman baca-artikel kosong jika di-refresh
             if (hash === '#baca-artikel') {
                 const titleEl = document.getElementById('baca-title');
                 if (!titleEl || titleEl.innerText === 'Judul Artikel') {
@@ -409,7 +448,6 @@
                 }
             }
 
-            // Proteksi Halaman Admin Dashboard
             if (hash === '#admin-dashboard') {
                 const navAdmin = document.getElementById('nav-admin');
                 if (navAdmin && navAdmin.classList.contains('hidden')) {
@@ -419,33 +457,26 @@
                 }
             }
 
-            // Sembunyikan semua halaman
             document.querySelectorAll('.page-section').forEach(section => {
                 section.classList.add('hidden');
-                section.classList.remove('animate-fade-in'); // Reset animasi
+                section.classList.remove('animate-fade-in'); 
             });
             
-            // Tampilkan halaman target
             const targetSection = document.querySelector(hash);
             if (targetSection) {
                 targetSection.classList.remove('hidden');
-                // Beri sedikit delay agar animasi terlihat saat berganti halaman
                 setTimeout(() => targetSection.classList.add('animate-fade-in'), 10);
             } else {
-                // Jika hash tidak ditemukan, kembali ke beranda
                 const beranda = document.getElementById('beranda');
                 beranda.classList.remove('hidden');
                 setTimeout(() => beranda.classList.add('animate-fade-in'), 10);
             }
             
-            // Gulir ke atas
             window.scrollTo(0, 0);
         }
 
-        // Jalankan routing saat URL berubah atau halaman pertama kali dimuat
         window.addEventListener('hashchange', handleNavigation);
         document.addEventListener('DOMContentLoaded', handleNavigation);
-
 
         // --- Setup API Gemini Terpusat ---
         const apiKey = ""; 
@@ -493,7 +524,6 @@
         let unsubscribeSettings = null;
         let articles = [];
 
-        // --- Fetch & Render Pengaturan Teks (Bisa diakses publik) ---
         function loadSettingsFromFirestore() {
             if (!currentUser) return;
 
@@ -546,7 +576,11 @@
         const initAuth = async () => {
             try {
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
+                    try {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } catch (tokenError) {
+                        await signInAnonymously(auth);
+                    }
                 } else {
                     await signInAnonymously(auth);
                 }
@@ -637,7 +671,7 @@
                 window.location.hash = '#beranda';
                 
                 const notif = document.createElement('div');
-                notif.className = 'fixed bottom-5 right-5 bg-gray-800 text-white px-6 py-3 rounded-xl shadow-xl z-[100] transition-opacity duration-300';
+                notif.className = 'fixed bottom-5 right-5 bg-[#242333] text-white border border-gray-700 px-6 py-3 rounded-xl shadow-xl z-[100] transition-opacity duration-300';
                 notif.innerText = 'Berhasil logout.';
                 document.body.appendChild(notif);
                 setTimeout(() => { notif.style.opacity = '0'; setTimeout(() => notif.remove(), 300); }, 3000);
@@ -675,7 +709,7 @@
         
         function renderArticles() {
             if (articles.length === 0) {
-                articleGrid.innerHTML = '<p class="text-gray-500 col-span-full text-center py-10 text-lg">Belum ada artikel yang dipublikasikan.</p>';
+                articleGrid.innerHTML = '<p class="text-gray-500 dark:text-gray-400 col-span-full text-center py-10 text-lg">Belum ada artikel yang dipublikasikan.</p>';
                 return;
             }
 
@@ -683,18 +717,18 @@
             articles.forEach(article => {
                 const imgFallback = `this.src='https://via.placeholder.com/800x400?text=Gambar+Artikel'`;
                 html += `
-                <article class="group bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl hover:-translate-y-2 transition-all duration-300 flex flex-col cursor-pointer" onclick="window.openArticle('${article.id}')">
+                <article class="group bg-white dark:bg-darker rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden hover:shadow-xl hover:-translate-y-2 transition-all duration-300 flex flex-col cursor-pointer" onclick="window.openArticle('${article.id}')">
                     <div class="overflow-hidden">
                         <img src="${article.image}" alt="${article.title}" class="w-full h-48 object-cover transform group-hover:scale-105 transition duration-500" onerror="${imgFallback}">
                     </div>
                     <div class="p-6 flex flex-col flex-grow relative">
-                        <div class="flex items-center gap-3 text-xs text-gray-500 mb-3">
-                            <span class="font-medium text-primary bg-blue-50 px-2 py-1 rounded">${article.category}</span>
+                        <div class="flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400 mb-3">
+                            <span class="font-medium text-primary bg-red-50 dark:bg-red-500/10 px-2 py-1 rounded">${article.category}</span>
                             <span>${article.date}</span>
                         </div>
-                        <h3 class="text-xl font-bold text-dark mb-2 leading-tight group-hover:text-primary transition-colors">${article.title}</h3>
-                        <p class="text-gray-600 text-sm mb-4 line-clamp-3 flex-grow">${article.excerpt}</p>
-                        <div class="mt-auto pt-4 border-t border-gray-50 flex items-center text-primary font-medium text-sm">
+                        <h3 class="text-xl font-bold text-dark dark:text-white mb-2 leading-tight group-hover:text-primary transition-colors">${article.title}</h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-3 flex-grow">${article.excerpt}</p>
+                        <div class="mt-auto pt-4 border-t border-gray-50 dark:border-gray-800 flex items-center text-primary font-medium text-sm">
                             Baca selengkapnya <i class="fas fa-arrow-right ml-2 text-xs group-hover:translate-x-1 transition-transform"></i>
                         </div>
                     </div>
@@ -740,7 +774,7 @@
             btnSummarize.disabled = true;
             btnSummarize.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Sedang Meringkas...';
             summaryContainer.classList.remove('hidden');
-            summaryContainer.innerHTML = '<span class="text-indigo-400">AI sedang membaca artikel ini...</span>';
+            summaryContainer.innerHTML = '<span class="text-primary opacity-80">AI sedang membaca artikel ini...</span>';
 
             const prompt = `Buatkan ringkasan dari artikel blog berikut ke dalam Bahasa Indonesia yang kasual, padat, dan jelas (maksimal 3 kalimat).\n\n${currentArticleContent}`;
             const summary = await callGeminiAPI(prompt);
@@ -751,7 +785,7 @@
             btnSummarize.disabled = false;
         });
 
-        // --- Fitur Bantuan Toolbar Editor (Sisip Gambar, Link, dsb) ---
+        // --- Fitur Bantuan Toolbar Editor ---
         function insertTextAtCursor(element, text) {
             if (element.selectionStart || element.selectionStart === '0') {
                 const startPos = element.selectionStart;
@@ -803,17 +837,20 @@
         const tabSettingsBtn = document.getElementById('tab-settings-btn');
         const adminSettingsContainer = document.getElementById('admin-settings-container');
 
+        const activeTabClass = "px-4 py-2 font-semibold text-primary border-b-2 border-primary focus:outline-none whitespace-nowrap transition-colors duration-300";
+        const inactiveTabClass = "px-4 py-2 font-semibold text-gray-500 dark:text-gray-400 border-b-2 border-transparent hover:text-gray-700 dark:hover:text-gray-200 transition focus:outline-none whitespace-nowrap duration-300";
+
         const switchToArticlesTab = () => {
-            tabArticlesBtn.className = "px-4 py-2 font-semibold text-primary border-b-2 border-primary focus:outline-none";
-            tabSettingsBtn.className = "px-4 py-2 font-semibold text-gray-500 border-b-2 border-transparent hover:text-gray-700 transition focus:outline-none";
+            tabArticlesBtn.className = activeTabClass;
+            tabSettingsBtn.className = inactiveTabClass;
             adminBody.classList.remove('hidden');
             adminSettingsContainer.classList.add('hidden');
             adminFormContainer.classList.add('hidden');
         };
 
         const switchToSettingsTab = () => {
-            tabSettingsBtn.className = "px-4 py-2 font-semibold text-primary border-b-2 border-primary focus:outline-none";
-            tabArticlesBtn.className = "px-4 py-2 font-semibold text-gray-500 border-b-2 border-transparent hover:text-gray-700 transition focus:outline-none";
+            tabSettingsBtn.className = activeTabClass;
+            tabArticlesBtn.className = inactiveTabClass;
             adminBody.classList.add('hidden');
             adminSettingsContainer.classList.remove('hidden');
             adminFormContainer.classList.add('hidden');
@@ -862,21 +899,21 @@
 
         function renderAdminArticles() {
             if (articles.length === 0) {
-                adminArticlesList.innerHTML = '<p class="text-gray-500 text-sm italic">Belum ada artikel. Klik "Tulis Baru" untuk memulai.</p>';
+                adminArticlesList.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-sm italic">Belum ada artikel. Klik "Tulis Baru" untuk memulai.</p>';
                 return;
             }
 
             let html = '';
             articles.forEach(article => {
                 html += `
-                <div class="bg-white p-4 rounded-xl border border-gray-200 flex justify-between items-center gap-4">
+                <div class="bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700 flex justify-between items-center gap-4 transition-colors">
                     <div class="flex-grow min-w-0">
-                        <h4 class="font-bold text-dark truncate">${article.title}</h4>
-                        <p class="text-xs text-gray-500">${article.date} &bull; ${article.category}</p>
+                        <h4 class="font-bold text-dark dark:text-white truncate">${article.title}</h4>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">${article.date} &bull; ${article.category}</p>
                     </div>
                     <div class="flex gap-2 flex-shrink-0">
-                        <button onclick="window.editArticle('${article.id}')" class="px-3 py-1.5 bg-blue-50 text-blue-600 rounded hover:bg-blue-100 text-sm font-medium transition">Edit</button>
-                        <button onclick="window.requestDelete('${article.id}', this)" class="px-3 py-1.5 bg-red-50 text-red-600 rounded hover:bg-red-100 text-sm font-medium transition">Hapus</button>
+                        <button onclick="window.editArticle('${article.id}')" class="px-3 py-1.5 bg-red-50 dark:bg-red-500/10 text-primary rounded hover:bg-red-100 dark:hover:bg-red-500/20 text-sm font-medium transition">Edit</button>
+                        <button onclick="window.requestDelete('${article.id}', this)" class="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded hover:bg-red-600 hover:text-white dark:hover:bg-red-600 dark:hover:text-white text-sm font-medium transition">Hapus</button>
                     </div>
                 </div>
                 `;
@@ -961,7 +998,7 @@
             const articleData = {
                 title, 
                 category: category || 'Umum', 
-                image: image || 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', 
+                image: image || 'https://ui-avatars.com/api/?name=Artikel&size=800&background=242333&color=FD3F4D', 
                 excerpt: excerpt || 'Tidak ada ringkasan', 
                 content, 
                 date: dateStr,
