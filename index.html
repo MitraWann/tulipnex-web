@@ -149,6 +149,10 @@
                 <div class="w-10 h-10 rounded-full bg-red-50 dark:bg-red-500/10 flex items-center justify-center text-primary text-lg"><i class="fas fa-envelope"></i></div>
                 Kontak Saya
             </a>
+            <button id="mobile-btn-show-login" class="mobile-nav-item w-full text-left block px-4 py-3 text-gray-600 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition flex items-center gap-4">
+                <div class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500 dark:text-gray-400 text-lg"><i class="fas fa-lock"></i></div>
+                Login Admin
+            </button>
             <div class="h-px bg-gray-100 dark:bg-gray-800 my-2"></div>
             <a href="#admin-dashboard" id="mobile-nav-admin" class="hidden mobile-nav-item w-full text-left block px-4 py-3 text-dark dark:text-gray-300 font-bold hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition flex items-center gap-4">
                 <div class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 text-lg"><i class="fas fa-cog"></i></div>
@@ -236,7 +240,7 @@
                 <h2 class="text-3xl font-bold text-dark dark:text-white">Bot WhatsApp Pintar</h2>
                 <div class="w-16 h-1 bg-primary mx-auto mt-4 rounded"></div>
                 <p id="display-bot-desc" class="mt-6 text-gray-600 dark:text-gray-300 leading-relaxed text-lg mb-10 break-words text-left sm:text-center">
-                    Halo! Selain menulis di blog, saya juga mengembangkan Bot WhatsApp yang dapat membantu berbagai keperluan Anda. Mulai dari informasi cepat, layanan otomatisasi, hingga fitur interaktif lainnya siap melayani Anda 24/7.
+                    Halo! Selain menulis di blog, saya juga mengembangkan Bot WhatsApp yang dapat membantu berbagai keperluan. Mulai dari informasi cepat, layanan otomatisasi, hingga fitur interaktif lainnya siap melayani 24/7.
                 </p>
                 <a href="https://wa.me/628989240628?text=.menu" target="_blank" class="inline-flex items-center gap-3 bg-green-500 text-white px-8 py-4 rounded-full font-bold hover:bg-green-600 transition shadow-lg shadow-green-500/30 text-lg border-2 border-transparent hover:border-green-400 hover:scale-105 transform">
                     <i class="fab fa-whatsapp text-2xl"></i> Hubungi Bot Sekarang
@@ -484,7 +488,7 @@
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center items-center">
             <p class="text-gray-400 text-sm flex items-center gap-2">
                 &copy; <span id="year"></span> Mitrawan.
-                <button id="btn-show-login" class="text-gray-500 hover:text-primary focus:outline-none transition-colors p-1" title="Admin Login">
+                <button id="btn-show-login" class="text-gray-500 hover:text-primary focus:outline-none transition-colors p-1 hidden md:block" title="Admin Login">
                     <i class="fas fa-lock text-xs"></i>
                 </button>
             </p>
@@ -713,6 +717,7 @@
             const mobileNavAdmin = getEl('mobile-nav-admin');
             const navLogout = getEl('nav-logout');
             const mobileNavLogout = getEl('mobile-nav-logout');
+            const mobileBtnLogin = getEl('mobile-btn-show-login');
 
             if (user) {
                 if (!user.isAnonymous) {
@@ -720,11 +725,13 @@
                     mobileNavAdmin?.classList.remove('hidden');
                     navLogout?.classList.remove('hidden');
                     mobileNavLogout?.classList.remove('hidden');
+                    mobileBtnLogin?.classList.add('hidden');
                 } else {
                     navAdmin?.classList.add('hidden');
                     mobileNavAdmin?.classList.add('hidden');
                     navLogout?.classList.add('hidden');
                     mobileNavLogout?.classList.add('hidden');
+                    mobileBtnLogin?.classList.remove('hidden');
                 }
                 loadArticlesFromFirestore();
                 loadSettingsFromFirestore();
@@ -735,11 +742,23 @@
         const loginModal = getEl('login-modal');
         const btnLoginSubmit = getEl('btn-login-submit');
 
-        getEl('btn-show-login')?.addEventListener('click', () => {
+        const openLoginModal = () => {
             if(loginModal) loginModal.classList.remove('hidden');
             getEl('login-error')?.classList.add('hidden');
             document.body.style.overflow = 'hidden';
-        });
+            
+            // Tutup mobile menu jika dibuka dari sana
+            const menu = getEl('mobile-menu');
+            const btn = getEl('mobile-menu-btn');
+            if (menu && !menu.classList.contains('hidden')) {
+                menu.classList.add('hidden');
+                btn?.classList.remove('text-primary', 'dark:text-primary');
+                btn?.classList.add('text-gray-500', 'dark:text-gray-400');
+            }
+        };
+
+        getEl('btn-show-login')?.addEventListener('click', openLoginModal);
+        getEl('mobile-btn-show-login')?.addEventListener('click', openLoginModal);
 
         const closeLoginModal = () => {
             if(loginModal) loginModal.classList.add('hidden');
