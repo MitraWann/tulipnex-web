@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #FD3F4D;
+  --color-primary-hover: #e03543;
+  --color-dark: #242333;
+  --color-darker: #1a1925;
+  --color-light: #f8fafc;
+  
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-light text-slate-800 antialiased transition-colors duration-300;
+  }
+  
+  .dark body {
+    @apply bg-darker text-gray-200;
+  }
+}
+
+@layer utilities {
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+/* Quill Editor Custom Styles */
+.quill {
+  @apply bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden;
+}
+
+.ql-toolbar {
+  @apply !border-none bg-gray-50 dark:bg-gray-900/50 !border-b border-gray-200 dark:border-gray-700;
+}
+
+.ql-container {
+  @apply !border-none text-base font-sans;
+  min-height: 300px;
+}
+
+.dark .ql-stroke {
+  stroke: #94a3b8 !important;
+}
+
+.dark .ql-fill {
+  fill: #94a3b8 !important;
+}
+
+.dark .ql-picker {
+  color: #94a3b8 !important;
+}
+
+.dark .ql-picker-options {
+  @apply !bg-gray-800 !border-gray-700;
+}
+
+.ql-editor {
+  @apply min-h-[300px] text-gray-700 dark:text-gray-200;
+}
+
+.ql-editor.ql-blank::before {
+  @apply !text-gray-400 dark:!text-gray-500;
+}

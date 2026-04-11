@@ -1,0 +1,60 @@
+{
+  "entities": {
+    "Article": {
+      "title": "Article",
+      "description": "A blog article document",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "The title of the article" },
+        "category": { "type": "string", "description": "The category of the article" },
+        "image": { "type": "string", "description": "URL of the thumbnail image" },
+        "excerpt": { "type": "string", "description": "Short summary of the article" },
+        "content": { "type": "string", "description": "Full HTML content of the article" },
+        "date": { "type": "string", "description": "Formatted date string" },
+        "createdAt": { "type": "number", "description": "Creation timestamp" },
+        "updatedAt": { "type": "number", "description": "Last update timestamp" },
+        "authorId": { "type": "string", "description": "UID of the author" }
+      },
+      "required": ["title", "content", "createdAt", "authorId"]
+    },
+    "SiteSettings": {
+      "title": "SiteSettings",
+      "description": "Global settings for the blog",
+      "type": "object",
+      "properties": {
+        "heroSubtitle": { "type": "string" },
+        "heroTitle": { "type": "string" },
+        "heroImage": { "type": "string" },
+        "heroDesc": { "type": "string" },
+        "aboutDesc": { "type": "string" },
+        "botDesc": { "type": "string" },
+        "updatedAt": { "type": "number" }
+      }
+    },
+    "User": {
+      "title": "User",
+      "description": "User profile and role information",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "user"] },
+        "uid": { "type": "string" }
+      },
+      "required": ["email", "role", "uid"]
+    }
+  },
+  "firestore": {
+    "/articles/{articleId}": {
+      "schema": "Article",
+      "description": "Collection of blog articles"
+    },
+    "/settings/main": {
+      "schema": "SiteSettings",
+      "description": "Global site configuration"
+    },
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles and roles"
+    }
+  }
+}
